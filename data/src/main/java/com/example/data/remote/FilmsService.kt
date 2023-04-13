@@ -8,7 +8,7 @@ import retrofit2.http.Query
 
 interface FilmsService {
 
-    @GET("/{lang}/API/MostPopularMovies/{apiKey}")
+    @GET("{lang}/API/MostPopularMovies/{apiKey}")
     suspend fun getLatestRates(
         @Path("lang") lang: String,
         @Path("apikey") apiKey: String

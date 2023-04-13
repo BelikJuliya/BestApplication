@@ -5,6 +5,7 @@ import com.example.data.remote.FilmsService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+const val BASE_URL = "https://imdb-api.com/"
 class App : Application() {
 
     lateinit var apiService: FilmsService
