@@ -3,7 +3,7 @@ package com.example.domain.usecase
 import com.example.domain.IFilmRepository
 import com.example.domain.model.FilmDomainModel
 
-class LoadFilmsUseCase(
+class LoadFilmsFromRemoteUseCase(
     private val repository: IFilmRepository
 ) {
 

@@ -1,7 +1,7 @@
 package com.example.myapplication.base
 
-import android.example.domain.BaseModel
 import androidx.collection.SparseArrayCompat
+import com.example.domain.BaseModel
 
 class AdapterDelegateManager {
 
