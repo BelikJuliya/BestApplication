@@ -1,0 +1,33 @@
+package android.example.app.ui.common
+
+import android.example.app.R
+import android.example.app.base.AdapterDelegate
+import android.example.app.base.BaseViewHolder
+import android.example.app.databinding.ItemLoaderBinding
+import android.example.domain.BaseModel
+import com.example.domain.model.Loader
+import android.view.ViewGroup
+
+class LoaderViewHolder(
+    val parent: ViewGroup,
+) : BaseViewHolder(parent, R.layout.item_loader) {
+
+    private lateinit var binding: ItemLoaderBinding
+
+    override fun bind(model: BaseModel, viewHolder: BaseViewHolder) {
+        binding = ItemLoaderBinding.bind(itemView)
+        with(binding) {
+            tvWait.text = root.resources.getString(R.string.wait)
+        }
+    }
+}
+
+class LoaderDelegate : AdapterDelegate {
+
+    override fun onCreateViewHolder(parent: ViewGroup): BaseViewHolder =
+        LoaderViewHolder(
+            parent,
+        )
+
+    override fun isValidType(baseModel: BaseModel): Boolean = baseModel is Loader
+}

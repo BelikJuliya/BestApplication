@@ -1,5 +1,6 @@
 package com.example.myapplication.films_list_flow
 
+import android.graphics.Bitmap
 import android.view.ViewGroup
 import com.example.domain.BaseModel
 import com.example.domain.BaseModelPayload
@@ -10,9 +11,10 @@ import com.example.myapplication.base.BaseViewHolder
 import com.example.myapplication.databinding.ItemFilmBinding
 
 class FilmsViewHolder(
-    val parent: ViewGroup,
+    private val parent: ViewGroup,
     private val saveFilm: (film: FilmDomainModel) -> Unit = {},
-    private val removeFromSaved: (film: FilmDomainModel) -> Unit = {}
+    private val removeFromSaved: (film: FilmDomainModel) -> Unit = {},
+    private val downloadImage: (url: String) -> Bitmap?
 ) : BaseViewHolder(parent, R.layout.item_film) {
 
     private lateinit var binding: ItemFilmBinding
@@ -21,9 +23,15 @@ class FilmsViewHolder(
         binding = ItemFilmBinding.bind(itemView)
         with(binding) {
             model as FilmDomainModel
-            bindName(model)
-            bindRate(model)
-            bindSavedState(model)
+            tvTitle.text = model.title
+            tvRating.text = model.iMDbRating
+            ivPreview.setImageBitmap(downloadImage(model.imageUrl))
+
+            if (model.isSaved) {
+                ivLike.setImageResource(R.drawable.ic_saved)
+            } else {
+                ivLike.setImageResource(R.drawable.ic_unsaved)
+            }
             root.setOnClickListener {
                 if (model.isSaved) {
                     removeFromSaved(model)
@@ -51,10 +59,9 @@ class FilmsViewHolder(
     private fun bindImage(model: BaseModel) {
         model as FilmDomainModel
         with(binding) {
-            // TODO load image
+            ivPreview.setImageBitmap(downloadImage(model.imageUrl))
         }
     }
-
 
     private fun bindSavedState(model: BaseModel) {
         model as FilmDomainModel
@@ -75,8 +82,9 @@ class FilmsViewHolder(
         payloads.forEach {
             when (it) {
                 BaseModelPayload.TITLE -> bindName(model)
-                BaseModelPayload.IMAGE -> bindRate(model)
-                BaseModelPayload.RATING -> bindSavedState(model)
+                BaseModelPayload.IMAGE -> bindImage(model)
+                BaseModelPayload.RATING -> bindRate(model)
+                BaseModelPayload.SAVED_STATE -> bindSavedState(model)
             }
         }
     }
@@ -84,14 +92,17 @@ class FilmsViewHolder(
 
 class FilmsDelegate(
     private val saveCurrency: (film: FilmDomainModel) -> Unit = {},
-    private val removeFromSaved: (film: FilmDomainModel) -> Unit = {}
+    private val removeFromSaved: (film: FilmDomainModel) -> Unit = {},
+    private val downloadImage: (url: String) -> Bitmap?
+
 ) : AdapterDelegate {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseViewHolder =
         FilmsViewHolder(
             parent,
             saveCurrency,
-            removeFromSaved
+            removeFromSaved,
+            downloadImage
         )
 
     override fun isValidType(baseModel: BaseModel): Boolean = baseModel is FilmDomainModel

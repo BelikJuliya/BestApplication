@@ -1,5 +1,8 @@
 package com.example.myapplication.films_list_flow
 
+import com.example.domain.model.Empty
+import com.example.domain.model.Loader
+import com.example.domain.model.Error
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,17 +11,21 @@ import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.example.myapplication.FilmsListAdapter
+import com.example.data.remote.FilmRepositoryImpl
+import com.example.domain.usecase.LoadFilmsFromRemoteUseCase
 import com.example.myapplication.R
+import com.example.myapplication.base.App
 import com.example.myapplication.databinding.FragmentFilmsListBinding
 import kotlinx.coroutines.launch
 
 class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
 
     private lateinit var binding: FragmentFilmsListBinding
-    private val viewModel: FilmsListViewModel = FilmsListViewModel()
+
+    private val viewModel: FilmsListViewModel =
+        FilmsListViewModel(LoadFilmsFromRemoteUseCase(FilmRepositoryImpl((activity?.application as App).apiService)))
     private val adapter by lazy {
-        FilmsListAdapter(
+        FilmsAdapter(
             saveFilm = { viewModel.saveFilm(it) },
             removeFromSaved = { viewModel.removeFromSaved(it) },
             downloadImage = { viewModel.downLoadImage(it) }
@@ -49,5 +56,4 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
             }
         }
     }
-
 }
