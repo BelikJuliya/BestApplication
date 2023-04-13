@@ -11,7 +11,7 @@ import com.example.myapplication.base.BaseViewHolder
 import com.example.myapplication.databinding.ItemFilmBinding
 
 class FilmsViewHolder(
-    private val parent: ViewGroup,
+    parent: ViewGroup,
     private val saveFilm: (film: FilmDomainModel) -> Unit = {},
     private val removeFromSaved: (film: FilmDomainModel) -> Unit = {},
     private val downloadImage: (url: String) -> Bitmap?
@@ -49,7 +49,7 @@ class FilmsViewHolder(
         }
     }
 
-    private fun bindRate(model: BaseModel) {
+    private fun bindRating(model: BaseModel) {
         model as FilmDomainModel
         with(binding) {
             tvRating.text = model.iMDbRating
@@ -83,7 +83,7 @@ class FilmsViewHolder(
             when (it) {
                 BaseModelPayload.TITLE -> bindName(model)
                 BaseModelPayload.IMAGE -> bindImage(model)
-                BaseModelPayload.RATING -> bindRate(model)
+                BaseModelPayload.RATING -> bindRating(model)
                 BaseModelPayload.SAVED_STATE -> bindSavedState(model)
             }
         }
