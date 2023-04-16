@@ -18,7 +18,7 @@ class SplashFragment : Fragment() {
     private val viewModel: SplashScreenViewModel by lazy {
         SplashScreenViewModel(
             LoadFilmsFromRemoteUseCase(
-                FilmRepositoryImpl((requireContext().applicationContext as App).apiService)
+                FilmRepositoryImpl((requireActivity().application as App).apiService)
             )
         )
     }
