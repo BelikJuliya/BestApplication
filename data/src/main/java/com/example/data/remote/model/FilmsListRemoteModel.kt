@@ -20,8 +20,7 @@ data class FilmsListRemoteModel(
                 imageUrl = it.image,
                 crew = it.crew,
                 iMDbRating = it.iMDbRating,
-                iMDbRatingCount = it.iMDbRatingCount
-
+                iMDbRatingCount = it.iMDbRatingCount,
             )
         }
     }
