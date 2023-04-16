@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import splash_screen_flow.SplashFragment
 
 class MainActivity : AppCompatActivity() {
 

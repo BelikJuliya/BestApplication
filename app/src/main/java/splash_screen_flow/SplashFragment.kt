@@ -1,4 +1,4 @@
-package com.example.myapplication
+package splash_screen_flow
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.data.remote.FilmRepositoryImpl
 import com.example.domain.usecase.LoadFilmsFromRemoteUseCase
+import com.example.myapplication.R
 import com.example.myapplication.base.App
 import com.example.myapplication.databinding.FragmentSplashBinding
 import com.example.myapplication.films_list_flow.FilmsListViewModel
@@ -14,9 +15,13 @@ import com.example.myapplication.films_list_flow.FilmsListViewModel
 class SplashFragment : Fragment() {
 
     private lateinit var binding: FragmentSplashBinding
-    private val viewModel: FilmsListViewModel =
-        FilmsListViewModel(LoadFilmsFromRemoteUseCase(FilmRepositoryImpl((activity?.application as App).apiService)))
-
+    private val viewModel: SplashScreenViewModel by lazy {
+        SplashScreenViewModel(
+            LoadFilmsFromRemoteUseCase(
+                FilmRepositoryImpl((requireActivity().application as App).apiService)
+            )
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,10 +35,7 @@ class SplashFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-
+        viewModel.fetchFilms("k_12345678")
 
     }
-
-
 }
