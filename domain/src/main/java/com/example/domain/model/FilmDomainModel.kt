@@ -5,15 +5,9 @@ import com.example.domain.BaseModelPayload
 
 data class FilmDomainModel(
     val id: String,
-    val rank: String,
-    val rankUpDown: String,
     val title: String,
-    val fullTitle: String,
-    val year: String,
     val imageUrl: String,
-    val crew: String,
-    val iMDbRating: String,
-    val iMDbRatingCount: String,
+    val rating: String,
     val isSaved: Boolean = false,
 ) : BaseModel {
 
@@ -27,7 +21,7 @@ data class FilmDomainModel(
         if (other.id != this.id) return false
         if (other.title != this.title) return false
         if (other.imageUrl != this.imageUrl) return false
-        if (other.iMDbRating != this.iMDbRating) return false
+        if (other.rating != this.rating) return false
         if (other.isSaved != this.isSaved) return false
         return true
     }
@@ -40,7 +34,7 @@ data class FilmDomainModel(
             payloads.add(BaseModelPayload.TITLE)
         if (other.imageUrl != this.imageUrl)
             payloads.add(BaseModelPayload.IMAGE)
-        if (other.iMDbRating != this.iMDbRatingCount)
+        if (other.rating != this.rating)
             payloads.add(BaseModelPayload.RATING)
         if (other.isSaved != this.isSaved)
             payloads.add(BaseModelPayload.SAVED_STATE)

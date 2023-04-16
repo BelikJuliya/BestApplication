@@ -1,4 +1,4 @@
-package android.example.remote
+package com.example.data.remote
 
 interface IResponse<T> {
 

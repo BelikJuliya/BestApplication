@@ -10,10 +10,11 @@ import com.example.myapplication.base.LoaderDelegate
 class FilmsAdapter(
     saveFilm: (film: FilmDomainModel) -> Unit,
     removeFromSaved: (film: FilmDomainModel) -> Unit,
-    downloadImage: (url: String) -> Bitmap?
+//    downloadImage: (url: String) -> Bitmap?
 ) : BaseRecyclerAdapter(
     listOf(
-        FilmsDelegate(saveFilm, removeFromSaved, downloadImage),
+//        FilmsDelegate(saveFilm, removeFromSaved, downloadImage),
+        FilmsDelegate(saveFilm, removeFromSaved),
         ErrorDelegate(),
         EmptyListDelegate(),
         LoaderDelegate()

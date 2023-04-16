@@ -14,7 +14,7 @@ class FilmsViewHolder(
     parent: ViewGroup,
     private val saveFilm: (film: FilmDomainModel) -> Unit = {},
     private val removeFromSaved: (film: FilmDomainModel) -> Unit = {},
-    private val downloadImage: (url: String) -> Bitmap?
+//    private val downloadImage: (url: String) -> Bitmap?
 ) : BaseViewHolder(parent, R.layout.item_film) {
 
     private lateinit var binding: ItemFilmBinding
@@ -24,8 +24,8 @@ class FilmsViewHolder(
         with(binding) {
             model as FilmDomainModel
             tvTitle.text = model.title
-            tvRating.text = model.iMDbRating
-            ivPreview.setImageBitmap(downloadImage(model.imageUrl))
+            tvRating.text = model.rating
+//            ivPreview.setImageBitmap(downloadImage(model.imageUrl))
 
             if (model.isSaved) {
                 ivLike.setImageResource(R.drawable.ic_saved)
@@ -52,14 +52,14 @@ class FilmsViewHolder(
     private fun bindRating(model: BaseModel) {
         model as FilmDomainModel
         with(binding) {
-            tvRating.text = model.iMDbRating
+            tvRating.text = model.rating
         }
     }
 
     private fun bindImage(model: BaseModel) {
         model as FilmDomainModel
         with(binding) {
-            ivPreview.setImageBitmap(downloadImage(model.imageUrl))
+//            ivPreview.setImageBitmap(downloadImage(model.imageUrl))
         }
     }
 
@@ -93,7 +93,7 @@ class FilmsViewHolder(
 class FilmsDelegate(
     private val saveCurrency: (film: FilmDomainModel) -> Unit = {},
     private val removeFromSaved: (film: FilmDomainModel) -> Unit = {},
-    private val downloadImage: (url: String) -> Bitmap?
+//    private val downloadImage: (url: String) -> Bitmap?
 
 ) : AdapterDelegate {
 
@@ -102,7 +102,7 @@ class FilmsDelegate(
             parent,
             saveCurrency,
             removeFromSaved,
-            downloadImage
+//            downloadImage
         )
 
     override fun isValidType(baseModel: BaseModel): Boolean = baseModel is FilmDomainModel

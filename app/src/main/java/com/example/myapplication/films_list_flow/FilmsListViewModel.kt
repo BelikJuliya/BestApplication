@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.FilmDomainModel
 import com.example.domain.usecase.LoadFilmsFromRemoteUseCase
+import com.example.domain.usecase.SaveFilmsToDbUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,18 +19,22 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 class FilmsListViewModel(
-    private val loadFilmsFromRemoteUseCase: LoadFilmsFromRemoteUseCase
+    private val saveFilmsToDbUseCase: SaveFilmsToDbUseCase
 ) : ViewModel() {
 
-    private val _filmsListUiState = MutableStateFlow<FilmsListUiState>(FilmsListUiState.Empty)
+    private val _filmsListUiState = MutableStateFlow<FilmsListUiState>(FilmsListUiState.Idle)
     val filmsListUiState: StateFlow<FilmsListUiState> = _filmsListUiState
 
     fun fetchFilms(apiKey: String) {
         _filmsListUiState.value = FilmsListUiState.Loading
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val films = loadFilmsFromRemoteUseCase.loadFilms(apiKey = apiKey)
-                _filmsListUiState.value = FilmsListUiState.Success(data = films)
+                val films = saveFilmsToDbUseCase.fetchFilmsList(apiKey = apiKey)
+                if (films.isEmpty()) {
+                    _filmsListUiState.value = FilmsListUiState.Empty
+                } else {
+                    _filmsListUiState.value = FilmsListUiState.Success(data = films)
+                }
             } catch (ex: Exception) {
                 _filmsListUiState.value = FilmsListUiState.Error(ex.message ?: "")
             }

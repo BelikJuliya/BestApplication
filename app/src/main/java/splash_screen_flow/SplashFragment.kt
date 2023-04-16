@@ -5,12 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.data.remote.FilmRepositoryImpl
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.example.data.remote.RemoteDataSourceImpl
+import com.example.domain.model.Empty
+import com.example.domain.model.Error
+import com.example.domain.model.Loader
 import com.example.domain.usecase.LoadFilmsFromRemoteUseCase
 import com.example.myapplication.R
 import com.example.myapplication.base.App
 import com.example.myapplication.databinding.FragmentSplashBinding
-import com.example.myapplication.films_list_flow.FilmsListViewModel
+import com.example.myapplication.films_list_flow.FilmsListUiState
+import kotlinx.coroutines.launch
 
 class SplashFragment : Fragment() {
 
@@ -18,7 +25,7 @@ class SplashFragment : Fragment() {
     private val viewModel: SplashScreenViewModel by lazy {
         SplashScreenViewModel(
             LoadFilmsFromRemoteUseCase(
-                FilmRepositoryImpl((requireActivity().application as App).apiService)
+                RemoteDataSourceImpl((requireActivity().application as App).apiService)
             )
         )
     }
@@ -36,5 +43,17 @@ class SplashFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.fetchFilms(resources.getString(R.string.api_key))
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.filmsListUiState.collect {
+//                    when (it) {
+//                        is FilmsListUiState.Empty -> adapter.submitItem(Empty())
+//                        is FilmsListUiState.Loading -> adapter.submitItem(Loader())
+//                        is FilmsListUiState.Error -> adapter.submitItem(Error(it.message))
+//                        is FilmsListUiState.Success -> adapter.submitList(it.data.toMutableList())
+//                    }
+                }
+            }
+        }
     }
 }

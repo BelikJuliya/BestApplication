@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.example.data.remote.FilmRepositoryImpl
+import com.example.data.remote.RemoteDataSourceImpl
 import com.example.domain.usecase.LoadFilmsFromRemoteUseCase
 import com.example.myapplication.R
 import com.example.myapplication.base.App
@@ -22,13 +22,19 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
 
     private lateinit var binding: FragmentFilmsListBinding
 
-    private val viewModel: FilmsListViewModel =
-        FilmsListViewModel(LoadFilmsFromRemoteUseCase(FilmRepositoryImpl((activity?.application as App).apiService)))
+//    private val viewModel: FilmsListViewModel =
+//        FilmsListViewModel(LoadFilmsFromRemoteUseCase(RemoteDataSourceImpl((activity?.application as App).apiService)))
     private val adapter by lazy {
         FilmsAdapter(
-            saveFilm = { viewModel.saveFilm(it) },
-            removeFromSaved = { viewModel.removeFromSaved(it) },
-            downloadImage = { viewModel.downLoadImage(it) }
+            saveFilm = {
+//                viewModel.saveFilm(it)
+                       },
+            removeFromSaved = {
+//                viewModel.removeFromSaved(it)
+                              },
+//            downloadImage = {
+//                viewModel.downLoadImage(it)
+//            }
         )
     }
 
@@ -45,14 +51,15 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
         super.onViewCreated(view, savedInstanceState)
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.filmsListUiState.collect {
-                    when (it) {
-                        is FilmsListUiState.Empty -> adapter.submitItem(Empty())
-                        is FilmsListUiState.Loading -> adapter.submitItem(Loader())
-                        is FilmsListUiState.Error -> adapter.submitItem(Error(it.message))
-                        is FilmsListUiState.Success -> adapter.submitList(it.data.toMutableList())
-                    }
-                }
+//                viewModel.filmsListUiState.collect {
+//                    when (it) {
+//                        is FilmsListUiState.Idle -> {}
+//                        is FilmsListUiState.Empty -> adapter.submitItem(Empty())
+//                        is FilmsListUiState.Loading -> adapter.submitItem(Loader())
+//                        is FilmsListUiState.Error -> adapter.submitItem(Error(it.message))
+//                        is FilmsListUiState.Success -> adapter.submitList(it.data.toMutableList())
+//                    }
+//                }
             }
         }
     }
