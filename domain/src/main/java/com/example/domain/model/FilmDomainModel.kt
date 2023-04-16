@@ -14,7 +14,7 @@ data class FilmDomainModel(
     val crew: String,
     val iMDbRating: String,
     val iMDbRatingCount: String,
-    val isSaved: Boolean,
+    val isSaved: Boolean = false,
 ) : BaseModel {
 
     override fun isIdDiff(other: BaseModel): Boolean {

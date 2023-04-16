@@ -1,12 +1,10 @@
-package android.example.app.ui.common
+package com.example.myapplication.base
 
-import android.example.app.R
-import android.example.app.base.AdapterDelegate
-import android.example.app.base.BaseViewHolder
-import android.example.app.databinding.ItemLoaderBinding
-import android.example.domain.BaseModel
 import com.example.domain.model.Loader
 import android.view.ViewGroup
+import com.example.domain.BaseModel
+import com.example.myapplication.R
+import com.example.myapplication.databinding.ItemLoaderBinding
 
 class LoaderViewHolder(
     val parent: ViewGroup,

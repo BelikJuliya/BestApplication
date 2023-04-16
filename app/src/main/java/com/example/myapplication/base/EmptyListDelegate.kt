@@ -1,12 +1,10 @@
-package android.example.app.ui.common
+package com.example.myapplication.base
 
-import android.example.app.R
-import android.example.app.base.AdapterDelegate
-import android.example.app.base.BaseViewHolder
-import android.example.app.databinding.ItemEmptyBinding
-import android.example.domain.BaseModel
 import com.example.domain.model.Empty
 import android.view.ViewGroup
+import com.example.domain.BaseModel
+import com.example.myapplication.R
+import com.example.myapplication.databinding.ItemEmptyBinding
 
 class EmptyCurrencyListViewHolder(
     val parent: ViewGroup,

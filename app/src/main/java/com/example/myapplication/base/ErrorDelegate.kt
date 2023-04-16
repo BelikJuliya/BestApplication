@@ -1,11 +1,9 @@
-package android.example.app.ui.common
+package com.example.myapplication.base
 
-import android.example.app.R
-import android.example.app.base.AdapterDelegate
-import android.example.app.base.BaseViewHolder
-import android.example.app.databinding.ItemErrorBinding
-import android.example.domain.BaseModel
 import android.view.ViewGroup
+import com.example.domain.BaseModel
+import com.example.myapplication.R
+import com.example.myapplication.databinding.ItemErrorBinding
 
 class ErrorViewHolder(
     val parent: ViewGroup,
