@@ -25,10 +25,12 @@ class App : Application() {
 
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(ChuckerInterceptor(context = applicationContext))
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://your.api.url/v2/")
-            .addConverterFactory(GsonConverterFactory.create())
+            .build()
 
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
             .build()
 
         apiService = retrofit.create(FilmsService::class.java)

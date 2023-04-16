@@ -5,4 +5,5 @@
     <string name="wait">Пожалуйста подождите…</string>
     <string name="currencies_not_found">Валют не найдено</string>
     <string name="server_error">Ошибка на сервере,\n попробуйте перезагрузить страницу</string>
+    <string name="api_key">k_sppar40b</string>
 </resources>

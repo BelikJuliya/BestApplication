@@ -35,7 +35,6 @@ class SplashFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.fetchFilms("k_12345678")
-
+        viewModel.fetchFilms(resources.getString(R.string.api_key))
     }
 }
