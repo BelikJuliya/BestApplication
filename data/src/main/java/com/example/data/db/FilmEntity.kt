@@ -28,9 +28,9 @@ class FilmEntity(
         fun fromDomainObject(model: FilmDomainModel): FilmEntity {
             return FilmEntity(
                 id = model.id,
-                title = model.title,
-                image = model.imageUrl,
-                rating = model.rating,
+                title = model.title ?: "",
+                image = model.imageUrl ?: "",
+                rating = model.rating ?: "",
                 isSaved = model.isSaved
             )
         }

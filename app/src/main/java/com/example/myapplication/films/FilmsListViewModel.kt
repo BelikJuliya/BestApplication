@@ -26,7 +26,11 @@ class FilmsListViewModel(
     private val _filmsListUiState = MutableStateFlow<FilmsListUiState>(FilmsListUiState.Idle)
     val filmsListUiState: StateFlow<FilmsListUiState> = _filmsListUiState
 
-    fun fetchFilms(apiKey: String) {
+    init {
+        fetchFilms()
+    }
+
+    private fun fetchFilms() {
         _filmsListUiState.value = FilmsListUiState.Loading
         viewModelScope.launch(Dispatchers.IO) {
             try {
