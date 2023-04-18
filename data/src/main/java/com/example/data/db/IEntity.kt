@@ -4,5 +4,5 @@ interface IEntity<D, E> {
 
     fun toDomainObject(): D
 
-    fun fromDomainObject(model: D): E
+//    fun fromDomainObject(model: D): E
 }

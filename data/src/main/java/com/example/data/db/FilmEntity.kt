@@ -22,14 +22,27 @@ class FilmEntity(
             isSaved = this.isSaved
         )
     }
+    companion object {
 
-    override fun fromDomainObject(model: FilmDomainModel): FilmEntity {
-        return FilmEntity(
-            id = model.id,
-            title = model.title,
-            image = model.imageUrl,
-            rating = model.rating,
-            isSaved = model.isSaved
-        )
+        fun fromDomainObject(model: FilmDomainModel): FilmEntity {
+            return FilmEntity(
+                id = model.id,
+                title = model.title,
+                image = model.imageUrl,
+                rating = model.rating,
+                isSaved = model.isSaved
+            )
+        }
     }
+
+
+//    override fun fromDomainObject(model: FilmDomainModel): FilmEntity {
+//        return FilmEntity(
+//            id = model.id,
+//            title = model.title,
+//            image = model.imageUrl,
+//            rating = model.rating,
+//            isSaved = model.isSaved
+//        )
+//    }
 }

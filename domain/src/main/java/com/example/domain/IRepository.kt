@@ -14,4 +14,6 @@ interface IRepository {
     suspend fun filmDetails(): FilmsDetailsDomainModel
 
     suspend fun fetchFavouriteFilms(): List<FilmDomainModel>
+
+    suspend fun saveFilmToFavourite(filmDomainModel: FilmDomainModel)
 }

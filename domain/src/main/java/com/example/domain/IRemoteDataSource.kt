@@ -6,4 +6,6 @@ interface IRemoteDataSource {
 
     suspend fun loadFilms(apiKey: String): List<FilmDomainModel>
 
+//    suspend fun loadFilmDetails(id: String)
+
 }

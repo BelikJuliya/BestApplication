@@ -1,7 +1,10 @@
 package com.example.myapplication.base
 
 import android.app.Application
+import androidx.room.Room
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.example.data.db.FilmDataBase
+import com.example.data.db.FilmsDao
 import com.example.data.remote.FilmsService
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -13,12 +16,12 @@ class App : Application() {
 
     lateinit var apiService: FilmsService
 
+    lateinit var filmDao: FilmsDao
 
     override fun onCreate() {
         super.onCreate()
-
         initRetrofit()
-        //    initDb()
+        initRoom()
     }
 
     private fun initRetrofit() {
@@ -35,8 +38,11 @@ class App : Application() {
 
         apiService = retrofit.create(FilmsService::class.java)
     }
+
+    private fun initRoom() {
+        val room = Room.databaseBuilder (applicationContext, FilmDataBase::class.java, "film-db").build()
+        filmDao = room.filmRemoteDao()
+    }
 }
-//    private fun initDb() {
-//        val db = Room.databaseBuilder(applicationContext,FilmDataBase :: class.java,"film-db")
-//    }
-//}
+
+
