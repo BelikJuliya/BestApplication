@@ -9,7 +9,7 @@ interface FilmsService {
 
     @GET("API/MostPopularMovies/")
     suspend fun loadFilms(
-        @Path("lang") lang: String?,
-        @Path("apikey") apiKey: String
+        @Query("lang") lang: String?,
+        @Query("apikey") apiKey: String
     ): FilmsListRemoteModel
 }
