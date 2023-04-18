@@ -7,10 +7,10 @@ import com.example.domain.model.FilmDomainModel
 @Entity(tableName = "films")
 class FilmEntity(
     @PrimaryKey val id: String,
-    private val title: String,
-    private val image: String,
-    private val rating: String,
-    private val isSaved: Boolean
+    val title: String,
+    val image: String,
+    val rating: String,
+    val isSaved: Boolean
 ) : IEntity<FilmDomainModel, FilmEntity> {
 
     override fun toDomainObject(): FilmDomainModel {
@@ -22,6 +22,7 @@ class FilmEntity(
             isSaved = this.isSaved
         )
     }
+
     companion object {
 
         fun fromDomainObject(model: FilmDomainModel): FilmEntity {
@@ -34,7 +35,6 @@ class FilmEntity(
             )
         }
     }
-
 
 //    override fun fromDomainObject(model: FilmDomainModel): FilmEntity {
 //        return FilmEntity(
