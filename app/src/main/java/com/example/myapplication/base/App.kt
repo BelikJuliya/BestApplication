@@ -44,5 +44,3 @@ class App : Application() {
         filmDao = room.filmRemoteDao()
     }
 }
-
-
