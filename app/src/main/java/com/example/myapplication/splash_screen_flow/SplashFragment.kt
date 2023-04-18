@@ -1,4 +1,4 @@
-package splash_screen_flow
+package com.example.myapplication.splash_screen_flow
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,15 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.example.data.remote.RemoteDataSourceImpl
-import com.example.domain.model.Empty
-import com.example.domain.model.Error
-import com.example.domain.model.Loader
+import com.example.data.remote.FilmRepositoryImpl
 import com.example.domain.usecase.LoadFilmsFromRemoteUseCase
 import com.example.myapplication.R
 import com.example.myapplication.base.App
 import com.example.myapplication.databinding.FragmentSplashBinding
-import com.example.myapplication.films_list_flow.FilmsListUiState
+import com.example.myapplication.films_list_flow.FilmsListViewModel
+import com.example.myapplication.splash_screen_flow.SplashScreenViewModel
 import kotlinx.coroutines.launch
 
 class SplashFragment : Fragment() {
@@ -25,7 +23,7 @@ class SplashFragment : Fragment() {
     private val viewModel: SplashScreenViewModel by lazy {
         SplashScreenViewModel(
             LoadFilmsFromRemoteUseCase(
-                RemoteDataSourceImpl((requireActivity().application as App).apiService)
+                FilmRepositoryImpl((requireActivity().application as App).apiService)
             )
         )
     }
