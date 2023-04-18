@@ -14,6 +14,7 @@ FilmsDao {
     @Query("SELECT * FROM films")
     suspend fun getFilms(): List<FilmEntity>
 
+    @Insert
     suspend fun saveToFavourite(filmEntity: FilmEntity)
 
 }
