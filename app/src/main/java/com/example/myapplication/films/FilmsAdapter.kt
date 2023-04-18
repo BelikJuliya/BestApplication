@@ -1,6 +1,5 @@
-package com.example.myapplication.films_list_flow
+package com.example.myapplication.films
 
-import android.graphics.Bitmap
 import com.example.domain.model.FilmDomainModel
 import com.example.myapplication.base.BaseRecyclerAdapter
 import com.example.myapplication.base.EmptyListDelegate

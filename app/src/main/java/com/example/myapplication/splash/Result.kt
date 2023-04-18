@@ -1,6 +1,4 @@
-package splash_screen_flow
-
-import com.example.domain.model.FilmDomainModel
+package com.example.myapplication.splash
 
 sealed class Result {
     open class Success() : Result()

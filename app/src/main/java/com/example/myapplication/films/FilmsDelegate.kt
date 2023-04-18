@@ -1,6 +1,5 @@
-package com.example.myapplication.films_list_flow
+package com.example.myapplication.films
 
-import android.graphics.Bitmap
 import android.view.ViewGroup
 import com.example.domain.BaseModel
 import com.example.domain.BaseModelPayload

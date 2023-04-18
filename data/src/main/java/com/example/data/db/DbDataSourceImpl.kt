@@ -8,7 +8,7 @@ class DbDataSourceImpl(
 ) : IDbDataSource {
 
     override suspend fun saveFilmsToDb(films: List<FilmDomainModel>) {
-        dao.saveFilmsList(films.map { FilmEntity.fromDomainObject(it) })
+        val result = dao.saveFilmsList(films.map { FilmEntity.fromDomainObject(it) })
     }
 
     override suspend fun fetchFilmsFromDb(): List<FilmDomainModel> {

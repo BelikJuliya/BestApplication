@@ -1,4 +1,4 @@
-package com.example.myapplication.films_list_flow
+package com.example.myapplication.films
 
 import com.example.domain.model.FilmDomainModel
 
