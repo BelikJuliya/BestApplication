@@ -14,7 +14,6 @@ const val BASE_URL = "https://imdb-api.com/"
 
 class App : Application() {
 
-
     lateinit var apiService: FilmsService
 
     lateinit var filmDao: FilmsDao
@@ -22,27 +21,26 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         initRetrofit()
-           initRoom()
+        initRoom()
     }
 
     private fun initRetrofit() {
 
         val okHttpClient = OkHttpClient.Builder()
-            .addInterceptor(ChuckerInterceptor(context = applicationContext)).build()
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://your.api.url/v2/")
-            .addConverterFactory(GsonConverterFactory.create())
+            .addInterceptor(ChuckerInterceptor(context = applicationContext))
+            .build()
 
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
             .build()
 
         apiService = retrofit.create(FilmsService::class.java)
     }
+
     private fun initRoom() {
-        val room = Room.databaseBuilder(applicationContext, FilmDataBase::class.java, "film-db").build()
+        val room = Room.databaseBuilder (applicationContext, FilmDataBase::class.java, "film-db").build()
         filmDao = room.filmRemoteDao()
     }
 }
-
-
-
-
