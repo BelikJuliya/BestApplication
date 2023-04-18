@@ -5,7 +5,7 @@ import com.example.domain.model.FilmDomainModel
 
 data class FilmsListRemoteModel(
     val items: List<FilmRemoteModel>,
-    val errorMessage: String
+    val errorMessage: String?
 ) : IResponse<List<FilmDomainModel>> {
 
     override fun toDomainObject(): List<FilmDomainModel> {

@@ -5,9 +5,9 @@ import com.example.domain.BaseModelPayload
 
 data class FilmDomainModel(
     val id: String,
-    val title: String,
-    val imageUrl: String,
-    val rating: String,
+    val title: String?,
+    val imageUrl: String?,
+    val rating: String?,
     val isSaved: Boolean = false,
 ) : BaseModel {
 

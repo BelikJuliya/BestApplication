@@ -36,7 +36,7 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
         )
     }
 
-    private val adapter by lazy {
+    private val filmsAdapter by lazy {
         FilmsAdapter(
             saveFilm = {
                 viewModel.saveFilm(it)
@@ -61,15 +61,16 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.rvFilms.adapter = filmsAdapter
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.filmsListUiState.collect {
                     when (it) {
                         is FilmsListUiState.Idle -> {}
-                        is FilmsListUiState.Empty -> adapter.submitItem(Empty())
-                        is FilmsListUiState.Loading -> adapter.submitItem(Loader())
-                        is FilmsListUiState.Error -> adapter.submitItem(com.example.domain.model.Error(it.message))
-                        is FilmsListUiState.Success -> adapter.submitList(it.data.toMutableList())
+                        is FilmsListUiState.Empty -> filmsAdapter.submitItem(Empty())
+                        is FilmsListUiState.Loading -> filmsAdapter.submitItem(Loader())
+                        is FilmsListUiState.Error -> filmsAdapter.submitItem(com.example.domain.model.Error(it.message))
+                        is FilmsListUiState.Success -> filmsAdapter.submitList(it.data.toMutableList())
                     }
                 }
             }
