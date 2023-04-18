@@ -3,8 +3,8 @@ package com.example.domain.model
 import com.example.domain.BaseModel
 
 data class ActorDomainModel(
-    val asCharacter: String,
     val id: String,
+    val asCharacter: String,
     val image: String,
     val name: String
 ):BaseModel{

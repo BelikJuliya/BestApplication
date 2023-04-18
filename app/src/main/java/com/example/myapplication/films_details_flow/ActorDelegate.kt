@@ -4,19 +4,15 @@ import android.view.ViewGroup
 import com.example.domain.BaseModel
 import com.example.domain.BaseModelPayload
 import com.example.domain.model.ActorDomainModel
-import com.example.domain.model.FilmDetailsScreenDomainModel
 import com.example.domain.model.FilmDomainModel
 import com.example.myapplication.R
 import com.example.myapplication.base.AdapterDelegate
 import com.example.myapplication.base.BaseViewHolder
 import com.example.myapplication.databinding.ItemActorBinding
-import com.example.myapplication.databinding.ItemFilmBinding
 
 
-class ActorDelegate (
+class ActorViewHolder(
     parent: ViewGroup,
-    private val saveFilm: (actor: ActorDomainModel) -> Unit = {},
-    private val removeFromSaved: (actor: ActorDomainModel) -> Unit = {},
 //    private val downloadImage: (url: String) -> Bitmap?
 ) : BaseViewHolder(parent, R.layout.item_actor) {
 
@@ -33,6 +29,7 @@ class ActorDelegate (
 
         }
     }
+
     private fun bindName(model: BaseModel) {
         model as ActorDomainModel
         with(binding) {
@@ -40,7 +37,7 @@ class ActorDelegate (
         }
     }
 
-    private fun bindRating(model: BaseModel) {
+    private fun bindAsCharacter(model: BaseModel) {
         model as ActorDomainModel
         with(binding) {
             tvCharacterName.text = model.asCharacter
@@ -54,8 +51,6 @@ class ActorDelegate (
         }
     }
 
-
-
     override fun bindPayload(
         model: BaseModel,
         viewHolder: BaseViewHolder,
@@ -63,27 +58,22 @@ class ActorDelegate (
     ) {
         payloads.forEach {
             when (it) {
-                BaseModelPayload.TITLE -> bindName(model)
+                BaseModelPayload.ACTOR_NAME -> bindName(model)
                 BaseModelPayload.IMAGE -> bindImage(model)
-                BaseModelPayload.RATING -> bindRating(model)
-                BaseModelPayload.SAVED_STATE -> bindSavedState(model)
+                BaseModelPayload.AS_CHARACTER -> bindAsCharacter(model)
             }
         }
     }
 }
 
-class FilmsDelegate(
-    private val saveCurrency: (film: FilmDomainModel) -> Unit = {},
-    private val removeFromSaved: (film: FilmDomainModel) -> Unit = {},
+class ActorDelegate(
 //    private val downloadImage: (url: String) -> Bitmap?
 
 ) : AdapterDelegate {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseViewHolder =
-        FilmsViewHolder(
+        ActorViewHolder(
             parent,
-            saveCurrency,
-            removeFromSaved,
 //            downloadImage
         )
 

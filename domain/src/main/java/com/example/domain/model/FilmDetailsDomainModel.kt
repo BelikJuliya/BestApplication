@@ -3,22 +3,22 @@ package com.example.domain.model
 import com.example.domain.BaseModel
 import com.example.domain.BaseModelPayload
 
-data class FilmDetailsScreenDomainModel(
+data class FilmDetailsDomainModel(
     val id : Int,
     val image: String,
     val title: String,
     val plot: String,
     val imDbRating: RatingDomainModel,
     val releaseDate : String,
-    val actorList : List<ActorDomainfModel>
+    val actorList : List<ActorDomainModel>
 ) : BaseModel{
     override fun isIdDiff(other: BaseModel): Boolean {
-        return if (other !is FilmDetailsScreenDomainModel) false
+        return if (other !is FilmDetailsDomainModel) false
         else this.id == other.id
     }
 
     override fun isContentDiff(other: BaseModel): Boolean {
-        if (other !is FilmDetailsScreenDomainModel) return false
+        if (other !is FilmDetailsDomainModel) return false
         if (other.id != this.id) return false
         if (other.title != this.title) return false
         if (other.image != this.image) return false
@@ -32,7 +32,7 @@ data class FilmDetailsScreenDomainModel(
 
     override fun getPayloadDiff(other: BaseModel): MutableList<Any> {
         val payloads = mutableListOf<Any>()
-        if (other !is FilmDetailsScreenDomainModel)
+        if (other !is FilmDetailsDomainModel)
             return payloads
         if (other.title != this.title)
             payloads.add(BaseModelPayload.TITLE)
@@ -48,5 +48,4 @@ data class FilmDetailsScreenDomainModel(
             payloads.add(BaseModelPayload.ACTOR_LIST)
         return payloads
     }
-
 }

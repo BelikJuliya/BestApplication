@@ -1,11 +1,10 @@
 package com.example.data
 
-import com.example.data.db.FilmEntity
 import com.example.domain.IDbDataSource
 import com.example.domain.IRemoteDataSource
 import com.example.domain.IRepository
+import com.example.domain.model.FilmDetailsDomainModel
 import com.example.domain.model.FilmDomainModel
-import com.example.domain.model.FilmsDetailsDomainModel
 
 class FilmRepositoryImpl(
     private val remoteDataSource: IRemoteDataSource,
@@ -24,8 +23,8 @@ class FilmRepositoryImpl(
         return dbDataSource.fetchFilmsFromDb()
     }
 
-    override suspend fun filmDetails(): FilmsDetailsDomainModel {
-        TODO("Not yet implemented")
+    override suspend fun filmDetails(id: String, apiKey: String): FilmDetailsDomainModel {
+       return remoteDataSource.filmDetails(id, apiKey)
     }
 
     override suspend fun fetchFavouriteFilms(): List<FilmDomainModel> {
