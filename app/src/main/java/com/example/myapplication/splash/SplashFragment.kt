@@ -1,5 +1,7 @@
-package splash_screen_flow
+package com.example.myapplication.splash
 
+import SplashScreenViewModel
+import com.example.myapplication.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,24 +14,26 @@ import com.example.data.FilmRepositoryImpl
 import com.example.data.db.DbDataSourceImpl
 import com.example.data.remote.RemoteDataSourceImpl
 import com.example.domain.usecase.LoadFilmsFromRemoteUseCase
-import com.example.myapplication.R
+import com.example.domain.usecase.SaveFilmsToDbUseCase
 import com.example.myapplication.base.App
+import com.example.myapplication.base.Result
 import com.example.myapplication.databinding.FragmentSplashBinding
-import com.example.myapplication.splash_screen_flow.SplashScreenViewModel
+import com.example.myapplication.films.FilmsListFragment
 import kotlinx.coroutines.launch
+
 
 class SplashFragment : Fragment() {
 
     private lateinit var binding: FragmentSplashBinding
     private val viewModel: SplashScreenViewModel by lazy {
         val app = requireActivity().application as App
+        val repository = FilmRepositoryImpl(
+            RemoteDataSourceImpl(app.apiService),
+            DbDataSourceImpl(app.filmDao)
+        )
         SplashScreenViewModel(
-            LoadFilmsFromRemoteUseCase(
-                FilmRepositoryImpl(
-                    RemoteDataSourceImpl(app.apiService),
-                    DbDataSourceImpl(app.filmDao)
-                )
-            )
+            LoadFilmsFromRemoteUseCase(repository),
+            SaveFilmsToDbUseCase(repository)
         )
     }
 
@@ -48,15 +52,23 @@ class SplashFragment : Fragment() {
         viewModel.fetchFilms(resources.getString(R.string.api_key))
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.filmsListUiState.collect {
-//                    when (it) {
-//                        is FilmsListUiState.Empty -> adapter.submitItem(Empty())
-//                        is FilmsListUiState.Loading -> adapter.submitItem(Loader())
-//                        is FilmsListUiState.Error -> adapter.submitItem(Error(it.message))
-//                        is FilmsListUiState.Success -> adapter.submitList(it.data.toMutableList())
-//                    }
+                viewModel.splashScreenUiState.collect {
+                    when (it) {
+                        is Result.Loading -> {}
+                        is Result.Success -> navigateToFilmsList()
+                        is Result.Error -> {
+                            // TODO show error
+                        }
+                    }
                 }
             }
         }
+    }
+
+    private fun navigateToFilmsList() {
+        val fragment: Fragment = FilmsListFragment()
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.fragment_container_view, fragment)
+            ?.addToBackStack(fragment.javaClass.simpleName)?.commit()
     }
 }

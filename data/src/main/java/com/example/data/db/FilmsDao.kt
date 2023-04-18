@@ -5,7 +5,8 @@ import androidx.room.Insert
 import androidx.room.Query
 
 @Dao
-interface FilmsDao {
+interface
+FilmsDao {
 
     @Insert
     suspend fun saveFilmsList(films: List<FilmEntity>)

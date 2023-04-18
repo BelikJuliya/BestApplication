@@ -1,11 +1,11 @@
-package com.example.myapplication.films_list_flow
+package com.example.myapplication.films
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.FilmDomainModel
-import com.example.domain.usecase.LoadFilmsFromRemoteUseCase
+import com.example.domain.usecase.GetFilmsFromDbUseCase
 import com.example.domain.usecase.SaveFilmsToDbUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -19,7 +19,8 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 class FilmsListViewModel(
-    private val saveFilmsToDbUseCase: SaveFilmsToDbUseCase
+    private val saveFilmsToDbUseCase: SaveFilmsToDbUseCase,
+    private val getFilmsFromDbUseCase: GetFilmsFromDbUseCase
 ) : ViewModel() {
 
     private val _filmsListUiState = MutableStateFlow<FilmsListUiState>(FilmsListUiState.Idle)
@@ -29,7 +30,7 @@ class FilmsListViewModel(
         _filmsListUiState.value = FilmsListUiState.Loading
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val films = saveFilmsToDbUseCase.fetchFilmsList(apiKey = apiKey)
+                val films = saveFilmsToDbUseCase.fetchFilmsList()
                 if (films.isEmpty()) {
                     _filmsListUiState.value = FilmsListUiState.Empty
                 } else {

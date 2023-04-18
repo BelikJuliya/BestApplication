@@ -1,4 +1,4 @@
-package com.example.myapplication.films_details_flow
+package com.example.myapplication.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,16 +12,16 @@ class FragmentDetailsViewModel(
     private val loafDetailsFilmUseCase : LoadDetailsFilmUseCase
 ) : ViewModel() {
 
-    private val _splashUiState = MutableStateFlow<Result>(Result.Loading)
-    val filmsListUiState: StateFlow<Result> = _splashUiState
+    private val _splashUiState = MutableStateFlow<FilmDetailState>(FilmDetailState.Loading)
+    val filmsListUiState: StateFlow<FilmDetailState> = _splashUiState
 
-    fun fetchFilms(apiKey: String, id : String) {
+    fun fetchFilmDetails(apiKey: String, id : String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val filmsDetails = loafDetailsFilmUseCase.loadFilmDetails(apiKey = apiKey, id = id)
-                _splashUiState.value = Result.Success()
+                _splashUiState.value = FilmDetailState.Success(filmsDetails)
             } catch (ex: Exception) {
-                _splashUiState.value = Result.Error
+                _splashUiState.value = FilmDetailState.Error
             }
         }
     }

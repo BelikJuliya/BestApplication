@@ -1,4 +1,4 @@
-package com.example.myapplication.films_details_flow
+package com.example.myapplication.details
 
 import android.view.ViewGroup
 import com.example.domain.BaseModel

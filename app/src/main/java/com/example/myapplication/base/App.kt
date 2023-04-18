@@ -14,6 +14,7 @@ const val BASE_URL = "https://imdb-api.com/"
 
 class App : Application() {
 
+
     lateinit var apiService: FilmsService
 
     lateinit var filmDao: FilmsDao
@@ -21,7 +22,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         initRetrofit()
-        initRoom()
+           initRoom()
     }
 
     private fun initRetrofit() {
@@ -36,11 +37,12 @@ class App : Application() {
 
         apiService = retrofit.create(FilmsService::class.java)
     }
-
     private fun initRoom() {
-        val room = Room.databaseBuilder (applicationContext, FilmDataBase::class.java, "film-db").build()
+        val room = Room.databaseBuilder(applicationContext, FilmDataBase::class.java, "film-db").build()
         filmDao = room.filmRemoteDao()
     }
 }
+
+
 
 

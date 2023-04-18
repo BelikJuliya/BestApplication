@@ -1,8 +1,9 @@
-package com.example.myapplication
+package com.example.myapplication.base
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.myapplication.splash_screen_flow.SplashFragment
+import com.example.myapplication.R
+import com.example.myapplication.splash.SplashFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -12,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, SplashFragment())
+                .replace(R.id.fragment_container_view, SplashFragment())
                 .commit()
         }
     }

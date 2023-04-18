@@ -1,19 +1,19 @@
-package com.example.myapplication.films_details_flow
+package com.example.myapplication.films
 
-import com.example.domain.model.FilmDetailsDomainModel
+import com.example.domain.model.FilmDomainModel
 import com.example.myapplication.base.BaseRecyclerAdapter
 import com.example.myapplication.base.EmptyListDelegate
 import com.example.myapplication.base.ErrorDelegate
 import com.example.myapplication.base.LoaderDelegate
-import com.example.myapplication.films_list_flow.FilmsDelegate
 
-class FilmDetailsAdapter(
-
+class FilmsAdapter(
+    saveFilm: (film: FilmDomainModel) -> Unit,
+    removeFromSaved: (film: FilmDomainModel) -> Unit,
 //    downloadImage: (url: String) -> Bitmap?
 ) : BaseRecyclerAdapter(
     listOf(
 //        FilmsDelegate(saveFilm, removeFromSaved, downloadImage),
-        ActorDelegate(),
+        FilmsDelegate(saveFilm, removeFromSaved),
         ErrorDelegate(),
         EmptyListDelegate(),
         LoaderDelegate()
