@@ -16,6 +16,6 @@ class SaveFilmsToDbUseCase(
     suspend fun removeFromFavourite(film: FilmDomainModel) {}
 
     suspend fun fetchFilmsList(): List<FilmDomainModel> {
-        return mutableListOf()
+        return repository.fetchFilmsFromDb()
     }
 }
