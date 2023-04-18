@@ -13,5 +13,7 @@ interface FilmsDao {
     @Query("SELECT * FROM films")
     suspend fun getFilms(): List<FilmEntity>
 
+    suspend fun saveToFavourite(filmEntity: FilmEntity)
+
 }
 

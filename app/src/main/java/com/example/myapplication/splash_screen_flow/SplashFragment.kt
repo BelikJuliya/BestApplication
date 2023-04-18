@@ -9,6 +9,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.data.remote.FilmRepositoryImpl
+import com.example.data.db.DbDataSourceImpl
+import com.example.data.remote.RemoteDataSourceImpl
+import com.example.domain.IRemoteDataSource
+import com.example.domain.model.Empty
+import com.example.domain.model.Error
+import com.example.domain.model.Loader
 import com.example.domain.usecase.LoadFilmsFromRemoteUseCase
 import com.example.myapplication.R
 import com.example.myapplication.base.App
@@ -21,9 +27,13 @@ class SplashFragment : Fragment() {
 
     private lateinit var binding: FragmentSplashBinding
     private val viewModel: SplashScreenViewModel by lazy {
+        val app = requireActivity().application as App
         SplashScreenViewModel(
             LoadFilmsFromRemoteUseCase(
-                FilmRepositoryImpl((requireActivity().application as App).apiService)
+                FilmRepositoryImpl(
+                    RemoteDataSourceImpl(app.apiService),
+                    DbDataSourceImpl(app.filmDao)
+                )
             )
         )
     }
