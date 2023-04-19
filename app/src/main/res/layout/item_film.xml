@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/dark_blue">
+        android:background="@color/purple_200">
 
         <ImageView
             android:id="@+id/iv_preview"
@@ -42,6 +42,7 @@
             android:layout_margin="@dimen/small_margin"
             android:layout_marginTop="@dimen/small_margin"
             android:ellipsize="end"
+            android:gravity="center"
             android:maxLines="2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/iv_preview"

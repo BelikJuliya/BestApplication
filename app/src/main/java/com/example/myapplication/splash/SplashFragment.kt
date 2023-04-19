@@ -16,7 +16,6 @@ import com.example.data.remote.RemoteDataSourceImpl
 import com.example.domain.usecase.LoadFilmsFromRemoteUseCase
 import com.example.domain.usecase.SaveFilmsToDbUseCase
 import com.example.myapplication.base.App
-import com.example.myapplication.base.Result
 import com.example.myapplication.databinding.FragmentSplashBinding
 import com.example.myapplication.films.FilmsListFragment
 import kotlinx.coroutines.launch
@@ -43,23 +42,14 @@ class SplashFragment : Fragment() {
     ): View {
         binding = FragmentSplashBinding.inflate(inflater, container, false)
         binding.splashImage.setImageResource(R.drawable.splashcat)
-        // Здесь можно добавить другие элементы для Splash Screen
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.fetchFilms(resources.getString(R.string.api_key))
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.splashScreenUiState.collect {
-                    when (it) {
-                        is Result.Loading -> {}
-                        is Result.Success -> navigateToFilmsList()
-                        is Result.Error -> {
-                            // TODO show error
-                        }
-                    }
+                viewModel.fetchFilms(requireActivity().resources.getString(R.string.api_key)).collect{
+                    navigateToFilmsList()
                 }
             }
         }

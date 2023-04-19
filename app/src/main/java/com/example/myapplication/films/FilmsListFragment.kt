@@ -19,6 +19,7 @@ import com.example.domain.usecase.SaveFilmsToDbUseCase
 import com.example.myapplication.R
 import com.example.myapplication.base.App
 import com.example.myapplication.databinding.FragmentFilmsListBinding
+import com.example.myapplication.details.FilmsDetailsFragment
 import kotlinx.coroutines.launch
 
 class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
@@ -45,6 +46,9 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
             removeFromSaved = {
                 viewModel.removeFromSaved(it)
             },
+            navigateToDetails = {
+                navigateToFilmsDetails()
+            }
 //            downloadImage = {
 //
 //                viewModel.downLoadImage(it, onImageLoaded = {
@@ -69,7 +73,7 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             rvFilms.adapter = filmsAdapter
-            var spanCount = 2
+            var spanCount = 1
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.filmsListUiState.collect {
@@ -79,13 +83,27 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
                                 spanCount = 1
                                 filmsAdapter.submitItem(Empty())
                             }
-                            is FilmsListUiState.Loading -> filmsAdapter.submitItem(Loader())
+                            is FilmsListUiState.Loading -> {
+                                spanCount = 1
+                                filmsAdapter.submitItem(Loader())
+                            }
                             is FilmsListUiState.Error -> filmsAdapter.submitItem(com.example.domain.model.Error(it.message))
-                            is FilmsListUiState.Success -> filmsAdapter.submitList(it.data.toMutableList())
+                            is FilmsListUiState.Success -> {
+                                spanCount = 2
+                                filmsAdapter.submitList(it.data.toMutableList())
+                            }
                         }
+                        rvFilms.layoutManager = GridLayoutManager(activity, spanCount)
                     }
                 }
             }
         }
+    }
+
+    private fun navigateToFilmsDetails() {
+        val fragment: Fragment = FilmsDetailsFragment()
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.fragment_container_view, fragment)
+            ?.addToBackStack(fragment.javaClass.simpleName)?.commit()
     }
 }

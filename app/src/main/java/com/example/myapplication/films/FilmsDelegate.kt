@@ -15,6 +15,7 @@ class FilmsViewHolder(
     parent: ViewGroup,
     private val saveFilm: (film: FilmDomainModel) -> Unit = {},
     private val removeFromSaved: (film: FilmDomainModel) -> Unit = {},
+    private val navigateToDetails: () -> Unit
 //    private val downloadImage: (url: String) -> Unit
 ) : BaseViewHolder(parent, R.layout.item_film) {
 
@@ -34,13 +35,14 @@ class FilmsViewHolder(
             } else {
                 ivLike.setImageResource(R.drawable.ic_unsaved)
             }
-            root.setOnClickListener {
+            ivLike.setOnClickListener {
                 if (model.isSaved) {
                     removeFromSaved(model)
                 } else {
                     saveFilm(model)
                 }
             }
+            root.setOnClickListener { navigateToDetails() }
         }
     }
 
@@ -96,6 +98,8 @@ class FilmsViewHolder(
 class FilmsDelegate(
     private val saveCurrency: (film: FilmDomainModel) -> Unit = {},
     private val removeFromSaved: (film: FilmDomainModel) -> Unit = {},
+    private val navigateToDetails: () -> Unit
+
 //    private val downloadImage: (url: String)
 
 ) : AdapterDelegate {
@@ -105,6 +109,7 @@ class FilmsDelegate(
             parent,
             saveCurrency,
             removeFromSaved,
+            navigateToDetails
 //            downloadImage
         )
 
