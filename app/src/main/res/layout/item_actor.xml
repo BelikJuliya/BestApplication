@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/default_margin"
     android:elevation="12dp"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -14,12 +14,13 @@
 
         <ImageView
             android:id="@+id/iv_actor_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/default_margin"
+            android:layout_width="100dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/small_margin"
+            android:scaleType="fitXY"
             android:src="@mipmap/ic_launcher_round"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,23 +28,28 @@
             android:id="@+id/tv_actor_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/default_margin"
+            android:layout_margin="@dimen/small_margin"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:gravity="center"
+            android:maxLines="1"
             app:layout_constraintEnd_toEndOf="@id/iv_actor_photo"
             app:layout_constraintStart_toStartOf="@id/iv_actor_photo"
             app:layout_constraintTop_toBottomOf="@id/iv_actor_photo"
             tools:text="Роберт Дауни" />
 
         <TextView
-            android:id="@+id/tv_character_name"
+            android:id="@+id/tv_role"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_margin"
             android:layout_marginEnd="@dimen/small_margin"
             android:layout_marginBottom="@dimen/small_margin"
-            app:layout_constraintTop_toBottomOf="@id/tv_actor_name"
-            app:layout_constraintStart_toStartOf="@id/tv_actor_name"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_actor_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_actor_name"
             tools:text="Васечкин" />
 
 
