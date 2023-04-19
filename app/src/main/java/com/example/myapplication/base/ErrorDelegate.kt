@@ -2,6 +2,7 @@ package com.example.myapplication.base
 
 import android.view.ViewGroup
 import com.example.domain.BaseModel
+import com.example.domain.model.Error
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ItemErrorBinding
 

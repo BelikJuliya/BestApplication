@@ -1,9 +1,10 @@
-package com.example.myapplication.splash
+
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.usecase.LoadFilmsFromRemoteUseCase
 import com.example.domain.usecase.SaveFilmsToDbUseCase
+import com.example.myapplication.base.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,7 +23,7 @@ class SplashScreenViewModel(
             try {
                 val films = loadFilmsFromRemoteUseCase.loadFilms(apiKey = apiKey)
                 saveFilmsToDbUseCase.saveFilmsToDb(films)
-                _splashUiState.value = Result.Success()
+                _splashUiState.value = Result.Success(data = Any())          //?
             } catch (ex: Exception) {
                 _splashUiState.value = Result.Error
             }

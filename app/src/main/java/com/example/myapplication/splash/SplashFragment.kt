@@ -1,5 +1,6 @@
 package com.example.myapplication.splash
 
+import SplashScreenViewModel
 import com.example.myapplication.R
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,9 +16,11 @@ import com.example.data.remote.RemoteDataSourceImpl
 import com.example.domain.usecase.LoadFilmsFromRemoteUseCase
 import com.example.domain.usecase.SaveFilmsToDbUseCase
 import com.example.myapplication.base.App
+import com.example.myapplication.base.Result
 import com.example.myapplication.databinding.FragmentSplashBinding
 import com.example.myapplication.films.FilmsListFragment
 import kotlinx.coroutines.launch
+
 
 class SplashFragment : Fragment() {
 

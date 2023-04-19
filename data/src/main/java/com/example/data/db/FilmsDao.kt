@@ -6,7 +6,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
-interface FilmsDao {
+interface
+FilmsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveFilmsList(films: List<FilmEntity>)
