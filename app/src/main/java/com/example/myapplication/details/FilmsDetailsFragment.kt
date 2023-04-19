@@ -17,6 +17,7 @@ class FilmsDetailsFragment : Fragment() {
         // Inflate the layout for this fragment//
         binding = FragmentFilmsDetailsBinding.inflate(inflater,container,false)
                 return binding.root
+        ///
 
     }
 }
