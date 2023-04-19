@@ -5,12 +5,8 @@ import com.example.myapplication.base.EmptyListDelegate
 import com.example.myapplication.base.ErrorDelegate
 import com.example.myapplication.base.LoaderDelegate
 
-class FilmDetailsAdapter(
-
-//    downloadImage: (url: String) -> Bitmap?
-) : BaseRecyclerAdapter(
+class ActorsAdapter : BaseRecyclerAdapter(
     listOf(
-//        FilmsDelegate(saveFilm, removeFromSaved, downloadImage),
         ActorDelegate(),
         ErrorDelegate(),
         EmptyListDelegate(),

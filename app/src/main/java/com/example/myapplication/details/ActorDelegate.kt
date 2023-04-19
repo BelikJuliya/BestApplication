@@ -1,9 +1,11 @@
 package com.example.myapplication.details
 
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.example.domain.BaseModel
 import com.example.domain.BaseModelPayload
 import com.example.domain.model.ActorDomainModel
+import com.example.domain.model.FilmDetailsDomainModel
 import com.example.domain.model.FilmDomainModel
 import com.example.myapplication.R
 import com.example.myapplication.base.AdapterDelegate
@@ -13,7 +15,6 @@ import com.example.myapplication.databinding.ItemActorBinding
 
 class ActorViewHolder(
     parent: ViewGroup,
-//    private val downloadImage: (url: String) -> Bitmap?
 ) : BaseViewHolder(parent, R.layout.item_actor) {
 
     private lateinit var binding: ItemActorBinding
@@ -23,9 +24,7 @@ class ActorViewHolder(
         with(binding) {
             model as ActorDomainModel
             tvActorName.text = model.name
-            tvCharacterName.text = model.asCharacter
-
-//            ivPreview.setImageBitmap(downloadImage(model.imageUrl))
+            tvRole.text = model.asCharacter
 
         }
     }
@@ -37,17 +36,17 @@ class ActorViewHolder(
         }
     }
 
-    private fun bindAsCharacter(model: BaseModel) {
+    private fun bindRole(model: BaseModel) {
         model as ActorDomainModel
         with(binding) {
-            tvCharacterName.text = model.asCharacter
+            tvRole.text = model.asCharacter
         }
     }
 
     private fun bindImage(model: BaseModel) {
         model as ActorDomainModel
         with(binding) {
-//            ivPreview.setImageBitmap(downloadImage(model.imageUrl))
+            Glide.with(binding.root).load(model.image).into(ivActorPhoto)
         }
     }
 
@@ -58,23 +57,19 @@ class ActorViewHolder(
     ) {
         payloads.forEach {
             when (it) {
-                BaseModelPayload.ACTOR_NAME -> bindName(model)
+                BaseModelPayload.NAME -> bindName(model)
                 BaseModelPayload.IMAGE -> bindImage(model)
-                BaseModelPayload.AS_CHARACTER -> bindAsCharacter(model)
+                BaseModelPayload.ROLE -> bindRole(model)
             }
         }
     }
 }
 
-class ActorDelegate(
-//    private val downloadImage: (url: String) -> Bitmap?
-
-) : AdapterDelegate {
+class ActorDelegate : AdapterDelegate {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseViewHolder =
         ActorViewHolder(
             parent,
-//            downloadImage
         )
 
     override fun isValidType(baseModel: BaseModel): Boolean = baseModel is FilmDomainModel

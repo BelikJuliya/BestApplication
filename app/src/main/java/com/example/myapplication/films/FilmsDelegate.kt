@@ -1,6 +1,5 @@
 package com.example.myapplication.films
 
-import android.graphics.Bitmap
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.example.domain.BaseModel
@@ -15,8 +14,7 @@ class FilmsViewHolder(
     parent: ViewGroup,
     private val saveFilm: (film: FilmDomainModel) -> Unit = {},
     private val removeFromSaved: (film: FilmDomainModel) -> Unit = {},
-    private val navigateToDetails: () -> Unit
-//    private val downloadImage: (url: String) -> Unit
+    private val navigateToDetails: (id: String) -> Unit
 ) : BaseViewHolder(parent, R.layout.item_film) {
 
     private lateinit var binding: ItemFilmBinding
@@ -28,7 +26,6 @@ class FilmsViewHolder(
             tvTitle.text = model.title
             tvRating.text = model.rating
             Glide.with(binding.root).load(model.imageUrl).into(ivPreview)
-//            model.imageUrl?.let { ivPreview.setImageBitmap(downloadImage(it)) }
 
             if (model.isSaved) {
                 ivLike.setImageResource(R.drawable.ic_saved)
@@ -42,7 +39,7 @@ class FilmsViewHolder(
                     saveFilm(model)
                 }
             }
-            root.setOnClickListener { navigateToDetails() }
+            root.setOnClickListener { navigateToDetails(model.id) }
         }
     }
 
@@ -64,7 +61,6 @@ class FilmsViewHolder(
         model as FilmDomainModel
         with(binding) {
             Glide.with(binding.root).load(model.imageUrl).into(ivPreview)
-//            model.imageUrl?.let { ivPreview.setImageBitmap(downloadImage(it)) }
         }
     }
 
@@ -98,10 +94,7 @@ class FilmsViewHolder(
 class FilmsDelegate(
     private val saveCurrency: (film: FilmDomainModel) -> Unit = {},
     private val removeFromSaved: (film: FilmDomainModel) -> Unit = {},
-    private val navigateToDetails: () -> Unit
-
-//    private val downloadImage: (url: String)
-
+    private val navigateToDetails: (id: String) -> Unit
 ) : AdapterDelegate {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseViewHolder =
@@ -110,7 +103,6 @@ class FilmsDelegate(
             saveCurrency,
             removeFromSaved,
             navigateToDetails
-//            downloadImage
         )
 
     override fun isValidType(baseModel: BaseModel): Boolean = baseModel is FilmDomainModel
