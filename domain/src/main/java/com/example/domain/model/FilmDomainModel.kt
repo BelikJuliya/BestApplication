@@ -2,6 +2,8 @@ package com.example.domain.model
 
 import com.example.domain.BaseModel
 import com.example.domain.BaseModelPayload
+import java.io.File
+import java.nio.file.Path
 
 data class FilmDomainModel(
     val id: String,
@@ -9,6 +11,7 @@ data class FilmDomainModel(
     val imageUrl: String?,
     val rating: String?,
     val isSaved: Boolean = false,
+    val bitmapPath: Path? = null
 ) : BaseModel {
 
     override fun isIdDiff(other: BaseModel): Boolean {

@@ -18,5 +18,8 @@ FilmsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveToFavourite(filmEntity: FilmEntity)
 
+    @Query("SELECT * FROM films")
+    suspend fun fetchFavouriteFilmsList(): List<FilmEntity>
+
 }
 

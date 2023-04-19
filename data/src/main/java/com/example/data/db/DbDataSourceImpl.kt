@@ -18,4 +18,8 @@ class DbDataSourceImpl(
     override suspend fun saveToFavourite(filmDomainModel: FilmDomainModel) {
         dao.saveToFavourite(FilmEntity.fromDomainObject(filmDomainModel))
     }
+
+    override suspend fun fetchFavouriteFilms(): List<FilmDomainModel> {
+        return dao.fetchFavouriteFilmsList().map { it.toDomainObject() }
+    }
 }

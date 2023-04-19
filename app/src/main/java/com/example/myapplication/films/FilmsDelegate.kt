@@ -1,6 +1,8 @@
 package com.example.myapplication.films
 
+import android.graphics.Bitmap
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.example.domain.BaseModel
 import com.example.domain.BaseModelPayload
 import com.example.domain.model.FilmDomainModel
@@ -13,7 +15,7 @@ class FilmsViewHolder(
     parent: ViewGroup,
     private val saveFilm: (film: FilmDomainModel) -> Unit = {},
     private val removeFromSaved: (film: FilmDomainModel) -> Unit = {},
-//    private val downloadImage: (url: String) -> Bitmap?
+//    private val downloadImage: (url: String) -> Unit
 ) : BaseViewHolder(parent, R.layout.item_film) {
 
     private lateinit var binding: ItemFilmBinding
@@ -24,7 +26,8 @@ class FilmsViewHolder(
             model as FilmDomainModel
             tvTitle.text = model.title
             tvRating.text = model.rating
-//            ivPreview.setImageBitmap(downloadImage(model.imageUrl))
+            Glide.with(binding.root).load(model.imageUrl).into(ivPreview)
+//            model.imageUrl?.let { ivPreview.setImageBitmap(downloadImage(it)) }
 
             if (model.isSaved) {
                 ivLike.setImageResource(R.drawable.ic_saved)
@@ -58,7 +61,8 @@ class FilmsViewHolder(
     private fun bindImage(model: BaseModel) {
         model as FilmDomainModel
         with(binding) {
-//            ivPreview.setImageBitmap(downloadImage(model.imageUrl))
+            Glide.with(binding.root).load(model.imageUrl).into(ivPreview)
+//            model.imageUrl?.let { ivPreview.setImageBitmap(downloadImage(it)) }
         }
     }
 
@@ -92,7 +96,7 @@ class FilmsViewHolder(
 class FilmsDelegate(
     private val saveCurrency: (film: FilmDomainModel) -> Unit = {},
     private val removeFromSaved: (film: FilmDomainModel) -> Unit = {},
-//    private val downloadImage: (url: String) -> Bitmap?
+//    private val downloadImage: (url: String)
 
 ) : AdapterDelegate {
 

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.data.FilmRepositoryImpl
 import com.example.data.db.DbDataSourceImpl
 import com.example.data.remote.RemoteDataSourceImpl
@@ -45,7 +46,12 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
                 viewModel.removeFromSaved(it)
             },
 //            downloadImage = {
-//                viewModel.downLoadImage(it)
+//
+//                viewModel.downLoadImage(it, onImageLoaded = {
+//
+//                }) {
+//
+//                }
 //            }
         )
     }
@@ -61,16 +67,22 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.rvFilms.adapter = filmsAdapter
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.filmsListUiState.collect {
-                    when (it) {
-                        is FilmsListUiState.Idle -> {}
-                        is FilmsListUiState.Empty -> filmsAdapter.submitItem(Empty())
-                        is FilmsListUiState.Loading -> filmsAdapter.submitItem(Loader())
-                        is FilmsListUiState.Error -> filmsAdapter.submitItem(com.example.domain.model.Error(it.message))
-                        is FilmsListUiState.Success -> filmsAdapter.submitList(it.data.toMutableList())
+        with(binding) {
+            rvFilms.adapter = filmsAdapter
+            var spanCount = 2
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.filmsListUiState.collect {
+                        when (it) {
+                            is FilmsListUiState.Idle -> {}
+                            is FilmsListUiState.Empty -> {
+                                spanCount = 1
+                                filmsAdapter.submitItem(Empty())
+                            }
+                            is FilmsListUiState.Loading -> filmsAdapter.submitItem(Loader())
+                            is FilmsListUiState.Error -> filmsAdapter.submitItem(com.example.domain.model.Error(it.message))
+                            is FilmsListUiState.Success -> filmsAdapter.submitList(it.data.toMutableList())
+                        }
                     }
                 }
             }
