@@ -22,4 +22,5 @@ interface FilmsService {
         @Query("options") options: String,
         @Query("apikey") apiKey: String
     ): FilmsDetailsRemoteModel
+
 }
