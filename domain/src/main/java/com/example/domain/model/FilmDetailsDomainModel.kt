@@ -4,11 +4,11 @@ import com.example.domain.BaseModel
 import com.example.domain.BaseModelPayload
 
 data class FilmDetailsDomainModel(
-    val id : Int,
+    val id : String,
     val image: String,
     val title: String,
     val plot: String,
-    val imDbRating: RatingDomainModel,
+    val imDbRating: RatingDomainModel?,
     val releaseDate : String,
     val actorList : List<ActorDomainModel>
 ) : BaseModel{
