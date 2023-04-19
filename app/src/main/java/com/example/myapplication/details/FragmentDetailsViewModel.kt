@@ -27,7 +27,7 @@ class FragmentDetailsViewModel(
         }
     }
 
-    fun goToYouTube(id: Int){
+    fun goToYouTube(id: String){
 
     }
 }
