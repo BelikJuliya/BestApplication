@@ -4,6 +4,6 @@ import com.example.domain.model.FilmDetailsDomainModel
 
 sealed class FilmDetailState {
     open class Success(val data: FilmDetailsDomainModel) : FilmDetailState()
-    object Error : FilmDetailState()
+    class Error(val message: String = "") : FilmDetailState()
     object Loading : FilmDetailState()
 }

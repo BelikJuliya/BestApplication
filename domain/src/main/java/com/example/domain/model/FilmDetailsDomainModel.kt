@@ -4,14 +4,16 @@ import com.example.domain.BaseModel
 import com.example.domain.BaseModelPayload
 
 data class FilmDetailsDomainModel(
-    val id : String,
-    val image: String,
-    val title: String,
-    val plot: String,
-    val imDbRating: RatingDomainModel?,
-    val releaseDate : String,
-    val actorList : List<ActorDomainModel>
-) : BaseModel{
+    val id: String?,
+    val image: String?,
+    val title: String?,
+    val plot: String?,
+    val imDbRating: String?,
+    val releaseDate: String?,
+    val actorList: List<ActorDomainModel>,
+    val errorMessage: String?
+) : BaseModel {
+
     override fun isIdDiff(other: BaseModel): Boolean {
         return if (other !is FilmDetailsDomainModel) false
         else this.id == other.id
@@ -26,7 +28,6 @@ data class FilmDetailsDomainModel(
         if (other.imDbRating != this.imDbRating) return false
         if (other.releaseDate != this.releaseDate) return false
         if (other.actorList != this.actorList) return false
-
         return true
     }
 

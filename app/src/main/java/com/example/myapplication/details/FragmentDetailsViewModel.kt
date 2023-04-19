@@ -20,14 +20,18 @@ class FragmentDetailsViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val filmsDetails = loafDetailsFilmUseCase.loadFilmDetails(apiKey = apiKey, id = id)
-                _detailsUiState.value = FilmDetailState.Success(filmsDetails)
+                if (!filmsDetails.errorMessage.isNullOrEmpty()) {
+                    _detailsUiState.value = FilmDetailState.Error()
+                } else {
+                    _detailsUiState.value = FilmDetailState.Success(filmsDetails)
+                }
             } catch (ex: Exception) {
-                _detailsUiState.value = FilmDetailState.Error
+                _detailsUiState.value = FilmDetailState.Error()
             }
         }
     }
 
-    fun goToYouTube(id: String){
+    fun goToYouTube(id: String?) {
 
     }
 }

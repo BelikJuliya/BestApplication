@@ -3,10 +3,10 @@ package com.example.domain.model
 import com.example.domain.BaseModel
 
 data class ActorDomainModel(
-    val id: String,
-    val asCharacter: String,
-    val image: String,
-    val name: String
+    val id: String?,
+    val asCharacter: String?,
+    val image: String?,
+    val name: String?
 ):BaseModel{
     override fun isIdDiff(other: BaseModel): Boolean {
         return super.isIdDiff(other)

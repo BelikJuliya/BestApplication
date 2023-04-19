@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -41,7 +42,6 @@ class FilmsDetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment//
         binding = FragmentFilmDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -60,7 +60,7 @@ class FilmsDetailsFragment : Fragment() {
                                 // show loader
                             }
                             is FilmDetailState.Error -> {
-                                // show error
+                                Toast.makeText(requireActivity(), it.message, Toast.LENGTH_LONG).show()
                             }
                             is FilmDetailState.Success -> {
                                 Glide.with(binding.root).load(it.data.image).into(ivPreview)
@@ -80,6 +80,7 @@ class FilmsDetailsFragment : Fragment() {
     }
 
     companion object {
+
         const val FILM_ID = "filmId"
     }
 }

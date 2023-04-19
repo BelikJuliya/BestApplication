@@ -4,10 +4,10 @@ import com.example.data.remote.IResponse
 import com.example.domain.model.ActorDomainModel
 
 data class ActorRemoteModel(
-    val asCharacter: String,
-    val id: String,
-    val image: String,
-    val name: String
+    val asCharacter: String?,
+    val id: String?,
+    val image: String?,
+    val name: String?
 ) : IResponse<ActorDomainModel> {
     override fun toDomainObject(): ActorDomainModel {
         return ActorDomainModel(
