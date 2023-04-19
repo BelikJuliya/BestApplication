@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.data.FilmRepositoryImpl
 import com.example.data.db.DbDataSourceImpl
 import com.example.data.remote.RemoteDataSourceImpl
@@ -18,6 +19,7 @@ import com.example.domain.usecase.SaveFilmsToDbUseCase
 import com.example.myapplication.R
 import com.example.myapplication.base.App
 import com.example.myapplication.databinding.FragmentFilmsListBinding
+import com.example.myapplication.details.FilmsDetailsFragment
 import kotlinx.coroutines.launch
 
 class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
@@ -44,8 +46,16 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
             removeFromSaved = {
                 viewModel.removeFromSaved(it)
             },
+            navigateToDetails = {
+                navigateToFilmsDetails()
+            }
 //            downloadImage = {
-//                viewModel.downLoadImage(it)
+//
+//                viewModel.downLoadImage(it, onImageLoaded = {
+//
+//                }) {
+//
+//                }
 //            }
         )
     }
@@ -61,19 +71,39 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.rvFilms.adapter = filmsAdapter
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.filmsListUiState.collect {
-                    when (it) {
-                        is FilmsListUiState.Idle -> {}
-                        is FilmsListUiState.Empty -> filmsAdapter.submitItem(Empty())
-                        is FilmsListUiState.Loading -> filmsAdapter.submitItem(Loader())
-                        is FilmsListUiState.Error -> filmsAdapter.submitItem(com.example.domain.model.Error(it.message))
-                        is FilmsListUiState.Success -> filmsAdapter.submitList(it.data.toMutableList())
+        with(binding) {
+            rvFilms.adapter = filmsAdapter
+            var spanCount = 1
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.filmsListUiState.collect {
+                        when (it) {
+                            is FilmsListUiState.Idle -> {}
+                            is FilmsListUiState.Empty -> {
+                                spanCount = 1
+                                filmsAdapter.submitItem(Empty())
+                            }
+                            is FilmsListUiState.Loading -> {
+                                spanCount = 1
+                                filmsAdapter.submitItem(Loader())
+                            }
+                            is FilmsListUiState.Error -> filmsAdapter.submitItem(com.example.domain.model.Error(it.message))
+                            is FilmsListUiState.Success -> {
+                                spanCount = 2
+                                filmsAdapter.submitList(it.data.toMutableList())
+                            }
+                        }
+                        rvFilms.layoutManager = GridLayoutManager(activity, spanCount)
                     }
                 }
             }
         }
+    }
+
+    private fun navigateToFilmsDetails() {
+        val fragment: Fragment = FilmsDetailsFragment()
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.fragment_container_view, fragment)
+            ?.addToBackStack(fragment.javaClass.simpleName)?.commit()
     }
 }

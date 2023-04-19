@@ -28,7 +28,7 @@ class FilmRepositoryImpl(
     }
 
     override suspend fun fetchFavouriteFilms(): List<FilmDomainModel> {
-        TODO("Not yet implemented")
+        return dbDataSource.fetchFavouriteFilms()
     }
 
     override suspend fun saveFilmToFavourite(filmDomainModel: FilmDomainModel) {
