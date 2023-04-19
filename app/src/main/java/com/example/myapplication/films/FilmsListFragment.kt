@@ -1,10 +1,10 @@
 package com.example.myapplication.films
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -47,7 +47,7 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
                 viewModel.removeFromSaved(it)
             },
             navigateToDetails = {
-                navigateToFilmsDetails()
+                navigateToFilmsDetails(it)
             }
 //            downloadImage = {
 //
@@ -100,8 +100,11 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
         }
     }
 
-    private fun navigateToFilmsDetails() {
+    private fun navigateToFilmsDetails(id: String) {
         val fragment: Fragment = FilmsDetailsFragment()
+        val arguments = Bundle()
+        arguments.putString(FilmsDetailsFragment.FILM_ID, id)
+        fragment.arguments = arguments
         activity?.supportFragmentManager?.beginTransaction()
             ?.replace(R.id.fragment_container_view, fragment)
             ?.addToBackStack(fragment.javaClass.simpleName)?.commit()
