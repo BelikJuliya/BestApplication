@@ -14,7 +14,7 @@ class FilmsViewHolder(
     parent: ViewGroup,
     private val saveFilm: (film: FilmDomainModel) -> Unit = {},
     private val removeFromSaved: (film: FilmDomainModel) -> Unit = {},
-    private val navigateToDetails: (id: String) -> Unit
+    private val navigateToDetails: (id: String, isSaved: Boolean) -> Unit
 ) : BaseViewHolder(parent, R.layout.item_film) {
 
     private lateinit var binding: ItemFilmBinding
@@ -39,7 +39,7 @@ class FilmsViewHolder(
                     saveFilm(model)
                 }
             }
-            root.setOnClickListener { navigateToDetails(model.id) }
+            root.setOnClickListener { navigateToDetails(model.id, model.isSaved) }
         }
     }
 
@@ -94,7 +94,7 @@ class FilmsViewHolder(
 class FilmsDelegate(
     private val saveCurrency: (film: FilmDomainModel) -> Unit = {},
     private val removeFromSaved: (film: FilmDomainModel) -> Unit = {},
-    private val navigateToDetails: (id: String) -> Unit
+    private val navigateToDetails: (id: String, isSaved: Boolean) -> Unit
 ) : AdapterDelegate {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseViewHolder =

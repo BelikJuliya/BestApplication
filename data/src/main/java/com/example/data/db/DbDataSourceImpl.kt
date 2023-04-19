@@ -1,5 +1,7 @@
 package com.example.data.db
 
+import com.example.data.db.entity.FavouriteFilmEntity
+import com.example.data.db.entity.FilmEntity
 import com.example.domain.IDbDataSource
 import com.example.domain.model.FilmDomainModel
 
@@ -8,7 +10,7 @@ class DbDataSourceImpl(
 ) : IDbDataSource {
 
     override suspend fun saveFilmsToDb(films: List<FilmDomainModel>) {
-        val result = dao.saveFilmsList(films.map { FilmEntity.fromDomainObject(it) })
+        dao.saveFilmsList(films.map { FilmEntity.fromDomainObject(it) })
     }
 
     override suspend fun fetchFilmsFromDb(): List<FilmDomainModel> {
@@ -16,7 +18,7 @@ class DbDataSourceImpl(
     }
 
     override suspend fun saveToFavourite(filmDomainModel: FilmDomainModel) {
-        dao.saveToFavourite(FilmEntity.fromDomainObject(filmDomainModel))
+        dao.saveToFavourite(FavouriteFilmEntity.fromDomainObject(filmDomainModel))
     }
 
     override suspend fun fetchFavouriteFilms(): List<FilmDomainModel> {

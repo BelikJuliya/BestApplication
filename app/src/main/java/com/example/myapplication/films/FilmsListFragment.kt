@@ -46,8 +46,8 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
             removeFromSaved = {
                 viewModel.removeFromSaved(it)
             },
-            navigateToDetails = {
-                navigateToFilmsDetails(it)
+            navigateToDetails = { id, isSaved ->
+                navigateToFilmsDetails(id, isSaved)
             }
 //            downloadImage = {
 //
@@ -100,10 +100,10 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
         }
     }
 
-    private fun navigateToFilmsDetails(id: String) {
+    private fun navigateToFilmsDetails(id: String, isSaved: Boolean) {
         val fragment: Fragment = FilmsDetailsFragment()
-        val arguments = Bundle()
-        arguments.putString(FilmsDetailsFragment.FILM_ID, id)
+        arguments?.putString(FilmsDetailsFragment.FILM_ID, id)
+        arguments?.putBoolean(FilmsDetailsFragment.FILM_ID, isSaved)
         fragment.arguments = arguments
         activity?.supportFragmentManager?.beginTransaction()
             ?.replace(R.id.fragment_container_view, fragment)

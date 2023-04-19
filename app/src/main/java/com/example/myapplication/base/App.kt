@@ -3,6 +3,7 @@ package com.example.myapplication.base
 import android.app.Application
 import androidx.room.Room
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.example.data.db.DbMigrations
 import com.example.data.db.FilmDataBase
 import com.example.data.db.FilmsDao
 import com.example.data.remote.FilmsService
@@ -25,7 +26,6 @@ class App : Application() {
     }
 
     private fun initRetrofit() {
-
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(ChuckerInterceptor(context = applicationContext))
             .build()
@@ -40,7 +40,9 @@ class App : Application() {
     }
 
     private fun initRoom() {
-        val room = Room.databaseBuilder (applicationContext, FilmDataBase::class.java, "film-db").build()
+        val room = Room.databaseBuilder (applicationContext, FilmDataBase::class.java, "film-db")
+//            .addMigrations(DbMigrations.MIGRATION_1_2)
+            .build()
         filmDao = room.filmRemoteDao()
     }
 }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -68,6 +69,29 @@ class FilmsDetailsFragment : Fragment() {
                                 tvDescription.text = it.data.plot
                                 tvReleaseDate.text = it.data.releaseDate
                                 actorsAdapter.submitList(it.data.actorList.toMutableList())
+                                val isSaved = arguments?.getBoolean(IS_SAVED, false)
+                                if (isSaved == true) {
+                                    ivAddToFavourite.setImageDrawable(
+                                        ContextCompat.getDrawable(
+                                            requireActivity(),
+                                            R.drawable.ic_saved
+                                        )
+                                    )
+                                } else {
+                                    ivAddToFavourite.setImageDrawable(
+                                        ContextCompat.getDrawable(
+                                            requireActivity(),
+                                            R.drawable.ic_unsaved
+                                        )
+                                    )
+                                }
+                                ivAddToFavourite.setOnClickListener {
+                                    if (isSaved == true) {
+                                        //viewModel.addToFavourite()
+                                    } else {
+                                        //viewModel.removeFromFavourite()
+                                    }
+                                }
                                 btnYoutube.setOnClickListener { _ ->
                                     viewModel.goToYouTube(it.data.id)
                                 }
@@ -82,5 +106,6 @@ class FilmsDetailsFragment : Fragment() {
     companion object {
 
         const val FILM_ID = "filmId"
+        const val IS_SAVED = "isSaved"
     }
 }

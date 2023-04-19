@@ -1,11 +1,12 @@
-package com.example.data.db
+package com.example.data.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.data.db.IEntity
 import com.example.domain.model.FilmDomainModel
 
-@Entity(tableName = "films")
-class FilmEntity(
+@Entity(tableName = "favourite")
+class FavouriteFilmEntity(
     @PrimaryKey val id: String,
     val title: String,
     val image: String,
@@ -25,8 +26,8 @@ class FilmEntity(
 
     companion object {
 
-        fun fromDomainObject(model: FilmDomainModel): FilmEntity {
-            return FilmEntity(
+        fun fromDomainObject(model: FilmDomainModel): FavouriteFilmEntity {
+            return FavouriteFilmEntity(
                 id = model.id,
                 title = model.title ?: "",
                 image = model.imageUrl ?: "",
@@ -35,14 +36,4 @@ class FilmEntity(
             )
         }
     }
-
-//    override fun fromDomainObject(model: FilmDomainModel): FilmEntity {
-//        return FilmEntity(
-//            id = model.id,
-//            title = model.title,
-//            image = model.imageUrl,
-//            rating = model.rating,
-//            isSaved = model.isSaved
-//        )
-//    }
 }

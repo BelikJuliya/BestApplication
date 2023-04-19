@@ -4,6 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.data.db.entity.FavouriteFilmEntity
+import com.example.data.db.entity.FilmEntity
 
 @Dao
 interface
@@ -16,9 +18,9 @@ FilmsDao {
     suspend fun getFilms(): List<FilmEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveToFavourite(filmEntity: FilmEntity)
+    suspend fun saveToFavourite(favouriteEntity: FavouriteFilmEntity)
 
-    @Query("SELECT * FROM films")
+    @Query("SELECT * FROM favourite")
     suspend fun fetchFavouriteFilmsList(): List<FilmEntity>
 
 }
