@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.favourite.FavouriteListFragment
 import com.example.myapplication.films.FilmsListFragment
 import com.example.myapplication.splash.SplashFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateToFavouriteList() {
-        val fragment: Fragment = FilmsListFragment()
+        val fragment: Fragment = FavouriteListFragment()
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container_view, fragment)
             .addToBackStack(fragment.javaClass.simpleName).commit()

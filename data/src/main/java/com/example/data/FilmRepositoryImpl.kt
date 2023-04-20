@@ -34,4 +34,12 @@ class FilmRepositoryImpl(
     override suspend fun saveFilmToFavourite(filmDomainModel: FilmDomainModel) {
         dbDataSource.saveToFavourite(filmDomainModel)
     }
+
+    override suspend fun removeFromFavourite(filmDomainModel: FilmDomainModel) {
+       dbDataSource.removeFromFavourite(filmDomainModel)
+    }
+
+    override suspend fun clearAll(favouriteFilmsList: List<FilmDomainModel>) {
+        dbDataSource.clearAll(favouriteFilmsList)
+    }
 }

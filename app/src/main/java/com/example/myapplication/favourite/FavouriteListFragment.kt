@@ -1,4 +1,4 @@
-package com.example.myapplication.films
+package com.example.myapplication.favourite
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,39 +14,37 @@ import com.example.data.db.DbDataSourceImpl
 import com.example.data.remote.RemoteDataSourceImpl
 import com.example.domain.model.Empty
 import com.example.domain.model.Loader
-import com.example.domain.usecase.GetAllFilmsFromDbUseCase
+import com.example.domain.usecase.ClearAllSavedUseCase
+import com.example.domain.usecase.GetFavouriteFilmsListUseCase
 import com.example.domain.usecase.RemoveFilmFromFavouriteUseCase
-import com.example.domain.usecase.SaveToFavouriteUseCase
 import com.example.myapplication.R
 import com.example.myapplication.base.App
 import com.example.myapplication.databinding.FragmentFilmsListBinding
 import com.example.myapplication.details.FilmsDetailsFragment
+import com.example.myapplication.films.FilmsListUiState
 import kotlinx.coroutines.launch
 
-class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
+class FavouriteListFragment : Fragment() {
 
     private lateinit var binding: FragmentFilmsListBinding
 
-    private val viewModel: FilmsListViewModel by lazy {
+    private val viewModel: FavouriteViewModel by lazy {
         val app = requireActivity().application as App
         val repository = FilmRepositoryImpl(
             RemoteDataSourceImpl(app.apiService),
             DbDataSourceImpl(app.filmDao)
         )
-        FilmsListViewModel(
-            SaveToFavouriteUseCase(repository),
-            RemoveFilmFromFavouriteUseCase(repository),
-            GetAllFilmsFromDbUseCase(repository)
+        FavouriteViewModel(
+            getFavouriteUseCase = GetFavouriteFilmsListUseCase(repository),
+            removeFilmsFromDbUseCase = RemoveFilmFromFavouriteUseCase(repository),
+            clearAllSavedFilmsUseCase = ClearAllSavedUseCase(repository)
         )
     }
 
-    private val filmsAdapter by lazy {
-        FilmsAdapter(
-            saveFilm = {
-                viewModel.saveFilm(it)
-            },
+    private val favouriteAdapter by lazy {
+        FavoriteListAdapter(
             removeFromSaved = {
-                viewModel.removeFromSaved(it)
+                //viewModel.removeFromSaved(it)
             },
             navigateToDetails = { id, isSaved ->
                 navigateToFilmsDetails(id, isSaved)
@@ -66,25 +64,25 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            rvFilms.adapter = filmsAdapter
+            rvFilms.adapter = favouriteAdapter
             var spanCount = 1
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.filmsListUiState.collect {
+                    viewModel.favouriteUiState.collect {
                         when (it) {
                             is FilmsListUiState.Idle -> {}
                             is FilmsListUiState.Empty -> {
                                 spanCount = 1
-                                filmsAdapter.submitItem(Empty())
+                                favouriteAdapter.submitItem(Empty())
                             }
                             is FilmsListUiState.Loading -> {
                                 spanCount = 1
-                                filmsAdapter.submitItem(Loader())
+                                favouriteAdapter.submitItem(Loader())
                             }
-                            is FilmsListUiState.Error -> filmsAdapter.submitItem(com.example.domain.model.Error(it.message))
+                            is FilmsListUiState.Error -> favouriteAdapter.submitItem(com.example.domain.model.Error(it.message))
                             is FilmsListUiState.Success -> {
                                 spanCount = 2
-                                filmsAdapter.submitList(it.data.toMutableList())
+                                favouriteAdapter.submitList(it.data.toMutableList())
                             }
                         }
                         rvFilms.layoutManager = GridLayoutManager(activity, spanCount)
@@ -96,9 +94,8 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
 
     private fun navigateToFilmsDetails(id: String, isSaved: Boolean) {
         val fragment: Fragment = FilmsDetailsFragment()
-        val arguments = Bundle()
-        arguments.putString(FilmsDetailsFragment.FILM_ID, id)
-        arguments.putBoolean(FilmsDetailsFragment.IS_SAVED, isSaved)
+        arguments?.putString(FilmsDetailsFragment.FILM_ID, id)
+        arguments?.putBoolean(FilmsDetailsFragment.FILM_ID, isSaved)
         fragment.arguments = arguments
         activity?.supportFragmentManager?.beginTransaction()
             ?.replace(R.id.fragment_container_view, fragment)

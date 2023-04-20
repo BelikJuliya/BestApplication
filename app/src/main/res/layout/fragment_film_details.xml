@@ -20,7 +20,7 @@
                 android:layout_margin="@dimen/text_margin"
                 android:scaleType="fitXY"
                 android:src="@mipmap/ic_launcher"
-                app:layout_constraintBottom_toBottomOf="@id/guideline2"
+                app:layout_constraintDimensionRatio="1:1.4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -36,7 +36,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/guideline2"
+                app:layout_constraintTop_toBottomOf="@id/iv_preview"
                 tools:text="Мир Дикого Запада (сериал 2016 – 2022)" />
 
             <TextView
@@ -49,12 +49,12 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_title"
                 tools:text="В футуристическом парке развлечений «Мир Дикого Запада» специально сконструированные андроиды выполняют любые прихоти посетителей, чтобы те чувствовали безнаказанность и полную свободу действий. Если робота убили — не беда, техники его починят, сотрут память и снова поставят в строй, навстречу новому дню и новым людским прихотям. Но оказывается, что далеко не все роботы теряют воспоминания." />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="290dp" />
+            <!--            <androidx.constraintlayout.widget.Guideline-->
+            <!--                android:id="@+id/guideline2"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:orientation="horizontal"-->
+            <!--                app:layout_constraintGuide_begin="290dp" />-->
 
             <ImageView
                 android:id="@+id/iv_add_to_favourite"
@@ -97,7 +97,9 @@
                 android:id="@+id/btn_youtube"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/text_margin"
+                android:layout_marginBottom="32dp"
+                android:layout_marginTop="@dimen/text_margin"
+                android:layout_marginHorizontal="@dimen/text_margin"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

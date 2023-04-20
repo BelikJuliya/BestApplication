@@ -1,6 +1,7 @@
 package com.example.data.db
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -22,6 +23,12 @@ FilmsDao {
 
     @Query("SELECT * FROM favourite")
     suspend fun fetchFavouriteFilmsList(): List<FilmEntity>
+
+    @Delete
+    suspend fun removeFilmFromFavourite(filmEntity: FavouriteFilmEntity)
+
+    @Delete
+    suspend fun clearAll(favouriteFilmsList: List<FavouriteFilmEntity>)
 
 }
 

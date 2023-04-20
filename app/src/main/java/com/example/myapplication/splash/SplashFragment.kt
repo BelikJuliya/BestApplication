@@ -14,12 +14,11 @@ import com.example.data.FilmRepositoryImpl
 import com.example.data.db.DbDataSourceImpl
 import com.example.data.remote.RemoteDataSourceImpl
 import com.example.domain.usecase.LoadFilmsFromRemoteUseCase
-import com.example.domain.usecase.SaveFilmsToDbUseCase
+import com.example.domain.usecase.SaveFilmsListUseCase
 import com.example.myapplication.base.App
 import com.example.myapplication.databinding.FragmentSplashBinding
 import com.example.myapplication.films.FilmsListFragment
 import kotlinx.coroutines.launch
-
 
 class SplashFragment : Fragment() {
 
@@ -32,7 +31,7 @@ class SplashFragment : Fragment() {
         )
         SplashScreenViewModel(
             LoadFilmsFromRemoteUseCase(repository),
-            SaveFilmsToDbUseCase(repository)
+            SaveFilmsListUseCase(repository)
         )
     }
 
@@ -48,7 +47,7 @@ class SplashFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.fetchFilms(requireActivity().resources.getString(R.string.api_key)).collect{
+                viewModel.fetchFilms(requireActivity().resources.getString(R.string.api_key)).collect {
                     navigateToFilmsList()
                 }
             }

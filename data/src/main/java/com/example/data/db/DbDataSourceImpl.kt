@@ -24,4 +24,12 @@ class DbDataSourceImpl(
     override suspend fun fetchFavouriteFilms(): List<FilmDomainModel> {
         return dao.fetchFavouriteFilmsList().map { it.toDomainObject() }
     }
+
+    override suspend fun removeFromFavourite(filmDomainModel: FilmDomainModel) {
+        dao.removeFilmFromFavourite(FavouriteFilmEntity.fromDomainObject(filmDomainModel))
+    }
+
+    override suspend fun clearAll(favouriteFilmsList: List<FilmDomainModel>) {
+        dao.clearAll(favouriteFilmsList.map { FavouriteFilmEntity.fromDomainObject(it) })
+    }
 }

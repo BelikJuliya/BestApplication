@@ -25,7 +25,7 @@ class ActorViewHolder(
             model as ActorDomainModel
             tvActorName.text = model.name
             tvRole.text = model.asCharacter
-
+            Glide.with(binding.root).load(model.image).into(ivActorPhoto)
         }
     }
 
@@ -72,5 +72,5 @@ class ActorDelegate : AdapterDelegate {
             parent,
         )
 
-    override fun isValidType(baseModel: BaseModel): Boolean = baseModel is FilmDomainModel
+    override fun isValidType(baseModel: BaseModel): Boolean = baseModel is ActorDomainModel
 }

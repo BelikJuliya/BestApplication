@@ -8,4 +8,6 @@ interface IDbDataSource {
     suspend fun fetchFilmsFromDb(): List<FilmDomainModel>
     suspend fun saveToFavourite(filmDomainModel: FilmDomainModel)
     suspend fun fetchFavouriteFilms(): List<FilmDomainModel>
+    suspend fun removeFromFavourite(filmDomainModel: FilmDomainModel)
+    suspend fun clearAll(favouriteFilmsList: List<FilmDomainModel>)
 }

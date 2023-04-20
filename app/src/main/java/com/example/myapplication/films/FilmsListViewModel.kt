@@ -1,33 +1,21 @@
 package com.example.myapplication.films
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.os.Environment
-import android.provider.MediaStore
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.FilmDomainModel
-import com.example.domain.usecase.GetFilmsFromDbUseCase
-import com.example.domain.usecase.SaveFilmsToDbUseCase
+import com.example.domain.usecase.GetAllFilmsFromDbUseCase
+import com.example.domain.usecase.RemoveFilmFromFavouriteUseCase
+import com.example.domain.usecase.SaveToFavouriteUseCase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.InputStream
-import java.net.HttpURLConnection
-import java.net.URL
 
 class FilmsListViewModel(
-    private val saveFilmsToDbUseCase: SaveFilmsToDbUseCase,
-    private val getFilmsFromDbUseCase: GetFilmsFromDbUseCase
+    private val saveToFavouriteUseCase: SaveToFavouriteUseCase,
+    private val deleteFilmUseCase: RemoveFilmFromFavouriteUseCase,
+    private val getAllFilmsFromDbUseCase: GetAllFilmsFromDbUseCase
 ) : ViewModel() {
 
     private val TAG = this.javaClass.simpleName
@@ -43,7 +31,7 @@ class FilmsListViewModel(
         _filmsListUiState.value = FilmsListUiState.Loading
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                filmsList.addAll(getFilmsFromDbUseCase.fetchFilmsList())
+                filmsList.addAll(getAllFilmsFromDbUseCase.fetchFilmsList())
                 if (filmsList.isEmpty()) {
                     _filmsListUiState.value = FilmsListUiState.Empty
                 } else {
@@ -58,7 +46,7 @@ class FilmsListViewModel(
     fun removeFromSaved(film: FilmDomainModel) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                saveFilmsToDbUseCase.removeFromFavourite(film)
+                deleteFilmUseCase.remove(film)
                 mapSavedState(film, false)
                 _filmsListUiState.value = FilmsListUiState.Success(data = filmsList)
             } catch (ex: Exception) {
@@ -70,7 +58,7 @@ class FilmsListViewModel(
     fun saveFilm(film: FilmDomainModel) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                saveFilmsToDbUseCase.saveToFavourite(film)
+                saveToFavouriteUseCase.saveToFavourite(film)
                 mapSavedState(film, true)
                 _filmsListUiState.value = FilmsListUiState.Success(data = filmsList)
             } catch (ex: Exception) {

@@ -14,7 +14,9 @@ import com.bumptech.glide.Glide
 import com.example.data.FilmRepositoryImpl
 import com.example.data.db.DbDataSourceImpl
 import com.example.data.remote.RemoteDataSourceImpl
-import com.example.domain.usecase.LoadDetailsFilmUseCase
+import com.example.domain.usecase.DetailsFilmUseCase
+import com.example.domain.usecase.RemoveFilmFromFavouriteUseCase
+import com.example.domain.usecase.SaveToFavouriteUseCase
 import com.example.myapplication.R
 import com.example.myapplication.base.App
 import com.example.myapplication.databinding.FragmentFilmDetailsBinding
@@ -28,14 +30,16 @@ class FilmsDetailsFragment : Fragment() {
         ActorsAdapter()
     }
 
-    private val viewModel: FragmentDetailsViewModel by lazy {
+    private val viewModel: DetailsViewModel by lazy {
         val app = requireActivity().application as App
         val repository = FilmRepositoryImpl(
             RemoteDataSourceImpl(app.apiService),
             DbDataSourceImpl(app.filmDao)
         )
-        FragmentDetailsViewModel(
-            LoadDetailsFilmUseCase(repository),
+        DetailsViewModel(
+            DetailsFilmUseCase(repository),
+            SaveToFavouriteUseCase(repository),
+            RemoveFilmFromFavouriteUseCase(repository)
         )
     }
 
@@ -87,9 +91,9 @@ class FilmsDetailsFragment : Fragment() {
                                 }
                                 ivAddToFavourite.setOnClickListener {
                                     if (isSaved == true) {
-                                        //viewModel.addToFavourite()
+                                        //viewModel.saveToFavourite()
                                     } else {
-                                        //viewModel.removeFromFavourite()
+                                        //viewModel.deleteFromFavourite()
                                     }
                                 }
                                 btnYoutube.setOnClickListener { _ ->

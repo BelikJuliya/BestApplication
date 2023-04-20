@@ -15,6 +15,10 @@ interface IRepository {
 
     suspend fun saveFilmToFavourite(filmDomainModel: FilmDomainModel)
 
+    suspend fun removeFromFavourite(filmDomainModel: FilmDomainModel)
+
     suspend fun filmDetails(id: String, apiKey: String): FilmDetailsDomainModel
+
+    suspend fun clearAll(favouriteFilmsList: List<FilmDomainModel>)
 
 }
