@@ -31,7 +31,7 @@ class FilmsListViewModel(
 ) : ViewModel() {
 
     private val TAG = this.javaClass.simpleName
-    private val filmsList = mutableListOf<FilmDomainModel>()
+    private var filmsList = mutableListOf<FilmDomainModel>()
     private val _filmsListUiState = MutableStateFlow<FilmsListUiState>(FilmsListUiState.Idle)
     val filmsListUiState: StateFlow<FilmsListUiState> = _filmsListUiState
 
@@ -80,11 +80,12 @@ class FilmsListViewModel(
     }
 
     private fun mapSavedState(film: FilmDomainModel, isSaved: Boolean) {
-        filmsList.map {
+        val newList = filmsList.map {
             if (it.id == film.id) {
                 it.copy(isSaved = isSaved)
             } else it
-        }
+        }.toMutableList()
+        filmsList = newList
     }
 }
 

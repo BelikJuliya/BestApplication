@@ -10,7 +10,7 @@ data class FilmDomainModel(
     val title: String?,
     val imageUrl: String?,
     val rating: String?,
-    val isSaved: Boolean = false,
+    var isSaved: Boolean = false,
     val bitmapPath: Path? = null
 ) : BaseModel {
 

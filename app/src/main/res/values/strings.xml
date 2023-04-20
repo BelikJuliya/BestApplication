@@ -6,4 +6,6 @@
     <string name="currencies_not_found">Фильмов не найдено</string>
     <string name="server_error">Ошибка на сервере,\n попробуйте перезагрузить страницу</string>
     <string name="api_key">k_sppar40b</string>
+    <string name="saved">Сохраненное</string>
+    <string name="popular">Популярное</string>
 </resources>
