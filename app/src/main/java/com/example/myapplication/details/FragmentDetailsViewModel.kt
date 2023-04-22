@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.FilmDetailsDomainModel
 import com.example.domain.usecase.LoadDetailsFilmUseCase
+import com.example.domain.usecase.LoadYouTubeTrailerUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,6 +18,7 @@ class FragmentDetailsViewModel(
     val detailsUiState: StateFlow<FilmDetailState> = _detailsUiState
 
     fun fetchFilmDetails(apiKey: String, id: String) {
+
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val filmsDetails = loafDetailsFilmUseCase.loadFilmDetails(apiKey = apiKey, id = id)
@@ -25,9 +27,5 @@ class FragmentDetailsViewModel(
                 _detailsUiState.value = FilmDetailState.Error
             }
         }
-    }
-
-    fun goToYouTube(id: String){
-
     }
 }

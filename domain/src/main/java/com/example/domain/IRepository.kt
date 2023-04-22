@@ -2,6 +2,7 @@ package com.example.domain
 
 import com.example.domain.model.FilmDetailsDomainModel
 import com.example.domain.model.FilmDomainModel
+import com.example.domain.model.YouTubeTrailerDomainModel
 
 interface IRepository {
 
@@ -16,5 +17,7 @@ interface IRepository {
     suspend fun saveFilmToFavourite(filmDomainModel: FilmDomainModel)
 
     suspend fun filmDetails(id: String, apiKey: String): FilmDetailsDomainModel
+
+    suspend fun getYouTubeTrailer(id: String,apiKey: String) : YouTubeTrailerDomainModel
 
 }

@@ -5,6 +5,7 @@ import com.example.domain.IRemoteDataSource
 import com.example.domain.IRepository
 import com.example.domain.model.FilmDetailsDomainModel
 import com.example.domain.model.FilmDomainModel
+import com.example.domain.model.YouTubeTrailerDomainModel
 
 class FilmRepositoryImpl(
     private val remoteDataSource: IRemoteDataSource,
@@ -25,6 +26,10 @@ class FilmRepositoryImpl(
 
     override suspend fun filmDetails(id: String, apiKey: String): FilmDetailsDomainModel {
        return remoteDataSource.filmDetails(id, apiKey)
+    }
+
+    override suspend fun getYouTubeTrailer(id: String, apiKey: String): YouTubeTrailerDomainModel {
+        return remoteDataSource.loadYouTubeTrailer(id,apiKey)
     }
 
     override suspend fun fetchFavouriteFilms(): List<FilmDomainModel> {

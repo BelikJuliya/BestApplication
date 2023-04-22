@@ -8,6 +8,7 @@ import android.provider.MediaStore
 import com.example.domain.IRemoteDataSource
 import com.example.domain.model.FilmDetailsDomainModel
 import com.example.domain.model.FilmDomainModel
+import com.example.domain.model.YouTubeTrailerDomainModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -37,6 +38,16 @@ class RemoteDataSourceImpl(
             id = id,
             apiKey = apiKey,
             options = RATINGS
+        ).toDomainObject()
+    }
+
+
+
+    override suspend fun loadYouTubeTrailer(id: String,apiKey: String) : YouTubeTrailerDomainModel{
+        return filmsService.getYouTubeTrailer(
+            lang = RUSSIAN,
+            id = id,
+            apiKey = apiKey
         ).toDomainObject()
     }
 

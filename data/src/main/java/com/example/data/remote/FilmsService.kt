@@ -2,6 +2,8 @@ package com.example.data.remote
 
 import com.example.data.remote.model.FilmsDetailsRemoteModel
 import com.example.data.remote.model.FilmsListRemoteModel
+import com.example.data.remote.model.YouTubeTrailerRemoteModel
+import com.example.domain.model.YouTubeTrailerDomainModel
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -23,4 +25,11 @@ interface FilmsService {
         @Query("apikey") apiKey: String
     ): FilmsDetailsRemoteModel
 
+
+    @GET("API/YouTubeTrailer/")
+    suspend fun getYouTubeTrailer(
+        @Query("lang") lang: String?,
+        @Query("id") id : String,
+        @Query("apikey")apiKey: String
+    ): YouTubeTrailerRemoteModel
 }
