@@ -45,9 +45,9 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
             saveFilm = {
                 viewModel.saveFilm(it)
             },
-            removeFromSaved = {
-                viewModel.removeFromSaved(it)
-            },
+//            removeFromSaved = {
+//                viewModel.removeFromSaved(it)
+//            },
             navigateToDetails = { id, isSaved ->
                 navigateToFilmsDetails(id, isSaved)
             }

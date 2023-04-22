@@ -13,7 +13,7 @@ import com.example.myapplication.databinding.ItemFilmBinding
 class FilmsViewHolder(
     parent: ViewGroup,
     private val saveFilm: (film: FilmDomainModel) -> Unit = {},
-    private val removeFromSaved: (film: FilmDomainModel) -> Unit = {},
+//    private val removeFromSaved: (film: FilmDomainModel) -> Unit = {},
     private val navigateToDetails: (id: String, isSaved: Boolean) -> Unit
 ) : BaseViewHolder(parent, R.layout.item_film) {
 
@@ -33,11 +33,13 @@ class FilmsViewHolder(
                 ivLike.setImageResource(R.drawable.ic_unsaved)
             }
             ivLike.setOnClickListener {
-                if (model.isSaved) {
-                    removeFromSaved(model)
-                } else {
+//                if (model.isSaved) {
+//                    removeFromSaved(model)
+                    //model.isSaved = false
+//                } else {
                     saveFilm(model)
-                }
+                    //model.isSaved = true
+//                }
             }
             root.setOnClickListener { navigateToDetails(model.id, model.isSaved) }
         }
@@ -69,8 +71,10 @@ class FilmsViewHolder(
         with(binding) {
             if (model.isSaved) {
                 ivLike.setImageResource(R.drawable.ic_saved)
+//                model.isSaved = true
             } else {
                 ivLike.setImageResource(R.drawable.ic_unsaved)
+//                model.isSaved = false
             }
         }
     }
@@ -92,16 +96,16 @@ class FilmsViewHolder(
 }
 
 class FilmsDelegate(
-    private val saveCurrency: (film: FilmDomainModel) -> Unit = {},
-    private val removeFromSaved: (film: FilmDomainModel) -> Unit = {},
+    private val saveFilm: (film: FilmDomainModel) -> Unit = {},
+//    private val removeFromSaved: (film: FilmDomainModel) -> Unit = {},
     private val navigateToDetails: (id: String, isSaved: Boolean) -> Unit
 ) : AdapterDelegate {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseViewHolder =
         FilmsViewHolder(
             parent,
-            saveCurrency,
-            removeFromSaved,
+            saveFilm,
+//            removeFromSaved,
             navigateToDetails
         )
 
