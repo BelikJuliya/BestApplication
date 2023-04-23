@@ -43,27 +43,23 @@ class FilmsListViewModel(
         }
     }
 
-//    fun removeFromSaved(film: FilmDomainModel) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            try {
-//                deleteFilmUseCase.remove(film)
-//                mapSavedState(film, false)
-//                _filmsListUiState.value = FilmsListUiState.Success(data = filmsList)
-//            } catch (ex: Exception) {
-//                Log.e(TAG, "removeFromSaved: remove from saved failed", ex)
-//            }
-//        }
-//    }
+    fun removeFromSaved(film: FilmDomainModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                deleteFilmUseCase.remove(film)
+                mapSavedState(film, false)
+                _filmsListUiState.value = FilmsListUiState.Success(data = filmsList)
+            } catch (ex: Exception) {
+                Log.e(TAG, "removeFromSaved: remove from saved failed", ex)
+            }
+        }
+    }
 
     fun saveFilm(film: FilmDomainModel) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                if (film.isSaved) {
-                    saveToFavouriteUseCase.saveToFavourite(film)
-                } else {
-                    deleteFilmUseCase.remove(film)
-                }
-                mapSavedState(film = film, isSaved = film.isSaved)
+                saveToFavouriteUseCase.saveToFavourite(film)
+                mapSavedState(film, true)
                 _filmsListUiState.value = FilmsListUiState.Success(data = filmsList)
             } catch (ex: Exception) {
                 Log.e(TAG, "saving to favourite: remove from saved failed", ex)
@@ -97,6 +93,8 @@ class FilmsListViewModel(
 //        val def = viewModelScope.async { downLoadImageFlow(urlString) }
 //        def.onAwait
 //    }
+
+
 
 //    fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
 //        val bytes = ByteArrayOutputStream()
