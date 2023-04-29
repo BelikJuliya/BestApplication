@@ -101,4 +101,6 @@ class FavouriteListFragment : Fragment() {
             ?.replace(R.id.fragment_container_view, fragment)
             ?.addToBackStack(fragment.javaClass.simpleName)?.commit()
     }
+
+
 }

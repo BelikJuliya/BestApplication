@@ -12,7 +12,7 @@ import com.example.data.db.entity.FilmEntity
 interface
 FilmsDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun saveFilmsList(films: List<FilmEntity>)
 
     @Query("SELECT * FROM films")
@@ -29,6 +29,24 @@ FilmsDao {
 
     @Delete
     suspend fun clearAll(favouriteFilmsList: List<FavouriteFilmEntity>)
+
+    @Query("SELECT * from films WHERE id= :id")
+    fun getFilmById(id: String): FilmEntity
+
+    @Query("UPDATE films SET isSaved = :isSaved WHERE id=:id")
+    suspend fun updateSaveState(id: String, isSaved: Boolean)
+
+//    @Query("UPDATE CategoryClickCountEntity SET clickCount = clickCount + 1 WHERE title=:title")
+//    fun incrementClickCount(title: String)
+//
+//    @Query("SELECT * from FilmEntity WHERE id= :id")
+//    fun getItemById(id: String): FilmEntity
+//
+//    fun insertOrUpdate(id: String, isSaved: Boolean) {
+//        val film = getItemById(id)
+//
+//            incrementClickCount(category.title)
+//    }
 
 }
 

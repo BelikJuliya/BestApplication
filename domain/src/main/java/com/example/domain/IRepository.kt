@@ -21,4 +21,8 @@ interface IRepository {
 
     suspend fun clearAll(favouriteFilmsList: List<FilmDomainModel>)
 
+    suspend fun updateSaveState(id: String, isSaved: Boolean)
+
+    suspend fun saveFilmById(id: String)
+
 }

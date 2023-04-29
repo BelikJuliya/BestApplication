@@ -23,11 +23,7 @@ class FilmsListViewModel(
     private val _filmsListUiState = MutableStateFlow<FilmsListUiState>(FilmsListUiState.Idle)
     val filmsListUiState: StateFlow<FilmsListUiState> = _filmsListUiState
 
-    init {
-        fetchFilms()
-    }
-
-    private fun fetchFilms() {
+    fun fetchFilms() {
         _filmsListUiState.value = FilmsListUiState.Loading
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -97,7 +93,6 @@ class FilmsListViewModel(
 //        val def = viewModelScope.async { downLoadImageFlow(urlString) }
 //        def.onAwait
 //    }
-
 
 //    fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
 //        val bytes = ByteArrayOutputStream()
