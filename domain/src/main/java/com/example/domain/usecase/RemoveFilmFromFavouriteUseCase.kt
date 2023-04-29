@@ -6,8 +6,11 @@ import com.example.domain.model.FilmDomainModel
 class RemoveFilmFromFavouriteUseCase(
     val repository: IRepository
 ) {
-
     suspend fun remove(filmDomainModel: FilmDomainModel) {
          repository.removeFromFavourite(filmDomainModel)
+    }
+
+    suspend fun removeFilmById(id: String) {
+        repository.removeFilmById(id)
     }
 }

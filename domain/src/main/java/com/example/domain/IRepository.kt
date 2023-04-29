@@ -25,4 +25,6 @@ interface IRepository {
 
     suspend fun saveFilmById(id: String)
 
+    suspend fun removeFilmById(id: String)
+
 }

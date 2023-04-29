@@ -48,6 +48,10 @@ class FilmRepositoryImpl(
     }
 
     override suspend fun saveFilmById(id: String) {
-        TODO("Not yet implemented")
+        dbDataSource.saveFilmById(id)
+    }
+
+    override suspend fun removeFilmById(id: String) {
+        dbDataSource.removeFilmById(id)
     }
 }

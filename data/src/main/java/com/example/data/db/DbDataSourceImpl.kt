@@ -41,4 +41,9 @@ class DbDataSourceImpl(
         val film = dao.getFilmById(id).toDomainObject()
         dao.saveToFavourite(FavouriteFilmEntity.fromDomainObject(film))
     }
+
+    override suspend fun removeFilmById(id: String) {
+        val film = dao.getFilmById(id).toDomainObject()
+        dao.removeFilmFromFavourite(FavouriteFilmEntity.fromDomainObject(film))
+    }
 }

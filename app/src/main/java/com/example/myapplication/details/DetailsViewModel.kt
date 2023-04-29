@@ -21,7 +21,7 @@ class DetailsViewModel(
 ) : ViewModel() {
 
     lateinit var filmId: String
-    var isSaved:Boolean = false
+    var isSaved: Boolean = false
     private lateinit var filmDetails: FilmDetailsDomainModel
 
     private val _detailsUiState = MutableStateFlow<FilmDetailState>(FilmDetailState.Loading)
@@ -40,6 +40,19 @@ class DetailsViewModel(
             } catch (ex: Exception) {
                 _detailsUiState.value = FilmDetailState.Error()
             }
+        }
+    }
+
+    fun changeSaveState(isSaved: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (isSaved) {
+                removeFromFavourite.removeFilmById(filmId)
+            } else {
+                saveToFavourite.saveFilmById(filmId)
+            }
+            updateSaveStateUseCase.updateSaveState(filmId, !isSaved)
+            filmDetails.isSaved = !isSaved
+            _detailsUiState.value = FilmDetailState.Success(filmDetails)
         }
     }
 

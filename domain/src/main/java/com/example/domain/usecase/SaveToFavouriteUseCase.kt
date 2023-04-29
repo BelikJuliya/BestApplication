@@ -11,6 +11,6 @@ class SaveToFavouriteUseCase(
     }
 
     suspend fun saveFilmById(id: String) {
-
+        repository.saveFilmById(id)
     }
 }
