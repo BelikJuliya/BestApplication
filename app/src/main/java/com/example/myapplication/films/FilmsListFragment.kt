@@ -102,7 +102,7 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
         val fragment: Fragment = FilmsDetailsFragment()
         val arguments = Bundle()
         arguments.putString(FilmsDetailsFragment.FILM_ID, id)
-        arguments.putBoolean(FilmsDetailsFragment.IS_SAVED, isSaved)
+        arguments.putBoolean(FilmsDetailsFragment.IS_SAVED, viewModel.findIsSavedFilmById(id))
         fragment.arguments = arguments
         activity?.supportFragmentManager?.beginTransaction()
             ?.replace(R.id.fragment_container_view, fragment)
