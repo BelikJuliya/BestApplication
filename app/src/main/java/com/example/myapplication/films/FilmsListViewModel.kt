@@ -75,6 +75,10 @@ class FilmsListViewModel(
         }.toMutableList()
         filmsList = newList
     }
+
+    fun findIsSavedFilmById(id: String): Boolean {
+        return filmsList.find { it.id == id }?.isSaved ?: false
+    }
 }
 
 //    private suspend fun mapImages(film: FilmDomainModel) {
