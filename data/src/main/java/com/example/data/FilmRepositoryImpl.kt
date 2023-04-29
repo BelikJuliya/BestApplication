@@ -39,8 +39,8 @@ class FilmRepositoryImpl(
        dbDataSource.removeFromFavourite(filmDomainModel)
     }
 
-    override suspend fun clearAll(favouriteFilmsList: List<FilmDomainModel>) {
-        dbDataSource.clearAll(favouriteFilmsList)
+    override suspend fun clearAll() {
+        dbDataSource.clearAll()
     }
 
     override suspend fun updateSaveState(id: String, isSaved: Boolean) {

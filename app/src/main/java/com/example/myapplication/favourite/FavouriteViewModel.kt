@@ -26,11 +26,7 @@ class FavouriteViewModel(
     private val _favouriteUiState = MutableStateFlow<FilmsListUiState>(FilmsListUiState.Idle)
     val favouriteUiState: StateFlow<FilmsListUiState> = _favouriteUiState
 
-    init {
-        fetchFilms()
-    }
-
-    private fun fetchFilms() {
+    fun fetchFilms() {
         _favouriteUiState.value = FilmsListUiState.Loading
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -44,5 +40,11 @@ class FavouriteViewModel(
                 _favouriteUiState.value = FilmsListUiState.Error(ex.message ?: "")
             }
         }
+    }
+
+    fun clearAll() {
+        viewModelScope.launch { clearAllSavedFilmsUseCase.clearAll() }
+        favouriteList.clear()
+        _favouriteUiState.value = FilmsListUiState.Empty
     }
 }

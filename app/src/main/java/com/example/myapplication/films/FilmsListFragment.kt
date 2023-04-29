@@ -17,6 +17,7 @@ import com.example.domain.model.Loader
 import com.example.domain.usecase.GetAllFilmsFromDbUseCase
 import com.example.domain.usecase.RemoveFilmFromFavouriteUseCase
 import com.example.domain.usecase.SaveToFavouriteUseCase
+import com.example.domain.usecase.UpdateSaveStateUseCase
 import com.example.myapplication.R
 import com.example.myapplication.base.App
 import com.example.myapplication.databinding.FragmentFilmsListBinding
@@ -36,7 +37,8 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
         FilmsListViewModel(
             SaveToFavouriteUseCase(repository),
             RemoveFilmFromFavouriteUseCase(repository),
-            GetAllFilmsFromDbUseCase(repository)
+            GetAllFilmsFromDbUseCase(repository),
+            UpdateSaveStateUseCase(repository)
         )
     }
 

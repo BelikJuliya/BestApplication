@@ -19,14 +19,15 @@ import com.example.domain.usecase.GetFavouriteFilmsListUseCase
 import com.example.domain.usecase.RemoveFilmFromFavouriteUseCase
 import com.example.myapplication.R
 import com.example.myapplication.base.App
+import com.example.myapplication.databinding.FragmentFavouriteFilmsBinding
 import com.example.myapplication.databinding.FragmentFilmsListBinding
 import com.example.myapplication.details.FilmsDetailsFragment
 import com.example.myapplication.films.FilmsListUiState
 import kotlinx.coroutines.launch
 
-class FavouriteListFragment : Fragment() {
+class FavouriteFragment : Fragment() {
 
-    private lateinit var binding: FragmentFilmsListBinding
+    private lateinit var binding: FragmentFavouriteFilmsBinding
 
     private val viewModel: FavouriteViewModel by lazy {
         val app = requireActivity().application as App
@@ -57,14 +58,16 @@ class FavouriteListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentFilmsListBinding.inflate(inflater, container, false)
+        binding = FragmentFavouriteFilmsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.fetchFilms()
         with(binding) {
-            rvFilms.adapter = favouriteAdapter
+            tvClearAll.setOnClickListener { viewModel.clearAll() }
+            rvFavourite.adapter = favouriteAdapter
             var spanCount = 1
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -85,7 +88,7 @@ class FavouriteListFragment : Fragment() {
                                 favouriteAdapter.submitList(it.data.toMutableList())
                             }
                         }
-                        rvFilms.layoutManager = GridLayoutManager(activity, spanCount)
+                        rvFavourite.layoutManager = GridLayoutManager(activity, spanCount)
                     }
                 }
             }
@@ -101,6 +104,4 @@ class FavouriteListFragment : Fragment() {
             ?.replace(R.id.fragment_container_view, fragment)
             ?.addToBackStack(fragment.javaClass.simpleName)?.commit()
     }
-
-
 }

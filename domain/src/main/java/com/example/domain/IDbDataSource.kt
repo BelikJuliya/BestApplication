@@ -9,7 +9,7 @@ interface IDbDataSource {
     suspend fun saveToFavourite(filmDomainModel: FilmDomainModel)
     suspend fun fetchFavouriteFilms(): List<FilmDomainModel>
     suspend fun removeFromFavourite(filmDomainModel: FilmDomainModel)
-    suspend fun clearAll(favouriteFilmsList: List<FilmDomainModel>)
+    suspend fun clearAll()
     suspend fun updateSaveState(id: String, isSaved: Boolean)
     suspend fun saveFilmById(id: String)
 

@@ -7,7 +7,7 @@ class ClearAllSavedUseCase(
     val repository: IRepository
 ) {
 
-    suspend fun clearAll(list: List<FilmDomainModel>) {
-        repository.clearAll(list)
+    suspend fun clearAll() {
+        repository.clearAll()
     }
 }

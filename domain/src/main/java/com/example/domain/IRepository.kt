@@ -19,7 +19,7 @@ interface IRepository {
 
     suspend fun filmDetails(id: String, apiKey: String): FilmDetailsDomainModel
 
-    suspend fun clearAll(favouriteFilmsList: List<FilmDomainModel>)
+    suspend fun clearAll()
 
     suspend fun updateSaveState(id: String, isSaved: Boolean)
 

@@ -7,6 +7,7 @@ import com.example.domain.model.FilmDomainModel
 import com.example.domain.usecase.GetAllFilmsFromDbUseCase
 import com.example.domain.usecase.RemoveFilmFromFavouriteUseCase
 import com.example.domain.usecase.SaveToFavouriteUseCase
+import com.example.domain.usecase.UpdateSaveStateUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +16,8 @@ import kotlinx.coroutines.launch
 class FilmsListViewModel(
     private val saveToFavouriteUseCase: SaveToFavouriteUseCase,
     private val deleteFilmUseCase: RemoveFilmFromFavouriteUseCase,
-    private val getAllFilmsFromDbUseCase: GetAllFilmsFromDbUseCase
+    private val getAllFilmsFromDbUseCase: GetAllFilmsFromDbUseCase,
+    private val updateSaveStateUseCase: UpdateSaveStateUseCase
 ) : ViewModel() {
 
     private val TAG = this.javaClass.simpleName
@@ -43,6 +45,7 @@ class FilmsListViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 deleteFilmUseCase.remove(film)
+                updateSaveStateUseCase.updateSaveState(film.id, false)
                 mapSavedState(film, false)
                 _filmsListUiState.value = FilmsListUiState.Success(data = filmsList)
             } catch (ex: Exception) {
@@ -55,6 +58,7 @@ class FilmsListViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 saveToFavouriteUseCase.saveToFavourite(film)
+                updateSaveStateUseCase.updateSaveState(film.id, true)
                 mapSavedState(film, true)
                 _filmsListUiState.value = FilmsListUiState.Success(data = filmsList)
             } catch (ex: Exception) {

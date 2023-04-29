@@ -2,14 +2,12 @@ package com.example.myapplication.base
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.Fragment
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMainBinding
-import com.example.myapplication.favourite.FavouriteListFragment
+import com.example.myapplication.favourite.FavouriteFragment
 import com.example.myapplication.films.FilmsListFragment
 import com.example.myapplication.splash.SplashFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -48,7 +46,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateToFavouriteList() {
-        val fragment: Fragment = FavouriteListFragment()
+        val fragment: Fragment = FavouriteFragment()
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container_view, fragment)
             .addToBackStack(fragment.javaClass.simpleName).commit()
