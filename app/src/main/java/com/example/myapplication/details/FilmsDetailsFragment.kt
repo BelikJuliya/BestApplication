@@ -17,6 +17,7 @@ import com.example.data.remote.RemoteDataSourceImpl
 import com.example.domain.usecase.DetailsFilmUseCase
 import com.example.domain.usecase.RemoveFilmFromFavouriteUseCase
 import com.example.domain.usecase.SaveToFavouriteUseCase
+import com.example.domain.usecase.UpdateSaveStateUseCase
 import com.example.myapplication.R
 import com.example.myapplication.base.App
 import com.example.myapplication.databinding.FragmentFilmDetailsBinding
@@ -39,7 +40,8 @@ class FilmsDetailsFragment : Fragment() {
         DetailsViewModel(
             DetailsFilmUseCase(repository),
             SaveToFavouriteUseCase(repository),
-            RemoveFilmFromFavouriteUseCase(repository)
+            RemoveFilmFromFavouriteUseCase(repository),
+            UpdateSaveStateUseCase(repository)
         )
     }
 
@@ -53,8 +55,12 @@ class FilmsDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val filmId = arguments?.getString(FILM_ID, "")
-        filmId?.let { viewModel.fetchFilmDetails(requireActivity().resources.getString(R.string.api_key), it) }
+
+        viewModel.filmId = arguments?.getString(FILM_ID, "") ?: ""
+        viewModel.isSaved = arguments?.getBoolean(IS_SAVED, false) ?: false
+
+        viewModel.fetchFilmDetails(requireActivity().resources.getString(R.string.api_key))
+
         with(binding) {
             rvActors.adapter = actorsAdapter
             viewLifecycleOwner.lifecycleScope.launch {
@@ -69,35 +75,38 @@ class FilmsDetailsFragment : Fragment() {
                             }
                             is FilmDetailState.Success -> {
                                 Glide.with(binding.root).load(it.data.image).into(ivPreview)
-                                tvTitle.text = it.data.title
-                                tvDescription.text = it.data.plot
-                                tvReleaseDate.text = it.data.releaseDate
-                                actorsAdapter.submitList(it.data.actorList.toMutableList())
-                                val isSaved = arguments?.getBoolean(IS_SAVED, false)
-                                if (isSaved == true) {
-                                    ivAddToFavourite.setImageDrawable(
-                                        ContextCompat.getDrawable(
-                                            requireActivity(),
-                                            R.drawable.ic_saved
+                                val detailState = it.data
+                                with(detailState) {
+                                    tvTitle.text = title
+                                    tvDescription.text = plot
+                                    tvReleaseDate.text = releaseDate
+                                    actorsAdapter.submitList(actorList.toMutableList())
+                                    if (isSaved) {
+                                        ivAddToFavourite.setImageDrawable(
+                                            ContextCompat.getDrawable(
+                                                requireActivity(),
+                                                R.drawable.ic_saved
+                                            )
                                         )
-                                    )
-                                } else {
-                                    ivAddToFavourite.setImageDrawable(
-                                        ContextCompat.getDrawable(
-                                            requireActivity(),
-                                            R.drawable.ic_unsaved
-                                        )
-                                    )
-                                }
-                                ivAddToFavourite.setOnClickListener {
-                                    if (isSaved == true) {
-                                        //viewModel.saveToFavourite()
                                     } else {
-                                        //viewModel.deleteFromFavourite()
+                                        ivAddToFavourite.setImageDrawable(
+                                            ContextCompat.getDrawable(
+                                                requireActivity(),
+                                                R.drawable.ic_unsaved
+                                            )
+                                        )
                                     }
-                                }
-                                btnYoutube.setOnClickListener { _ ->
-                                    viewModel.goToYouTube(it.data.id)
+                                    ivAddToFavourite.setOnClickListener {
+                                        viewModel.changeSaveState(isSaved)
+//                                        if (isSaved) {
+//                                            viewModel.deleteFromFavourite()
+//                                        } else {
+//                                            viewModel.saveToFavourite()
+//                                        }
+                                    }
+                                    btnYoutube.setOnClickListener { _ ->
+                                        viewModel.goToYouTube(it.data.id)
+                                    }
                                 }
                             }
                         }

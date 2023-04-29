@@ -48,8 +48,8 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
             delete = {
                 viewModel.delete(it)
             },
-            navigateToDetails = { id, isSaved ->
-                navigateToFilmsDetails(id, isSaved)
+            navigateToDetails = { id ->
+                navigateToFilmsDetails(id)
             }
         )
     }
@@ -66,6 +66,7 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            viewModel.fetchFilms()
             rvFilms.adapter = filmsAdapter
             var spanCount = 1
             viewLifecycleOwner.lifecycleScope.launch {
@@ -98,7 +99,7 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
         }
     }
 
-    private fun navigateToFilmsDetails(id: String, isSaved: Boolean) {
+    private fun navigateToFilmsDetails(id: String) {
         val fragment: Fragment = FilmsDetailsFragment()
         val arguments = Bundle()
         arguments.putString(FilmsDetailsFragment.FILM_ID, id)
@@ -107,5 +108,13 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
         activity?.supportFragmentManager?.beginTransaction()
             ?.replace(R.id.fragment_container_view, fragment)
             ?.addToBackStack(fragment.javaClass.simpleName)?.commit()
+    }
+
+    override fun onResume() {
+        super.onResume()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
     }
 }

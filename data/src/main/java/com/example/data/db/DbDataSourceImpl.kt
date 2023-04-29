@@ -32,4 +32,18 @@ class DbDataSourceImpl(
     override suspend fun clearAll(favouriteFilmsList: List<FilmDomainModel>) {
         dao.clearAll(favouriteFilmsList.map { FavouriteFilmEntity.fromDomainObject(it) })
     }
+
+    override suspend fun updateSaveState(id: String, isSaved: Boolean) {
+        dao.updateSaveState(id, isSaved)
+    }
+
+    override suspend fun saveFilmById(id: String) {
+        val film = dao.getFilmById(id).toDomainObject()
+        dao.saveToFavourite(FavouriteFilmEntity.fromDomainObject(film))
+    }
+
+    override suspend fun removeFilmById(id: String) {
+        val film = dao.getFilmById(id).toDomainObject()
+        dao.removeFilmFromFavourite(FavouriteFilmEntity.fromDomainObject(film))
+    }
 }

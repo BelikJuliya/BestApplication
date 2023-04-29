@@ -9,4 +9,8 @@ class SaveToFavouriteUseCase(
     suspend fun saveToFavourite(film: FilmDomainModel) {
         repository.saveFilmToFavourite(film)
     }
+
+    suspend fun saveFilmById(id: String) {
+        repository.saveFilmById(id)
+    }
 }

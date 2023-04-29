@@ -2,10 +2,12 @@ package com.example.myapplication.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.model.FilmDetailsDomainModel
 import com.example.domain.model.FilmDomainModel
 import com.example.domain.usecase.DetailsFilmUseCase
 import com.example.domain.usecase.RemoveFilmFromFavouriteUseCase
 import com.example.domain.usecase.SaveToFavouriteUseCase
+import com.example.domain.usecase.UpdateSaveStateUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,20 +16,26 @@ import kotlinx.coroutines.launch
 class DetailsViewModel(
     private val loafDetailsFilmUseCase: DetailsFilmUseCase,
     private val saveToFavourite: SaveToFavouriteUseCase,
-    private val removeFromFavourite: RemoveFilmFromFavouriteUseCase
+    private val removeFromFavourite: RemoveFilmFromFavouriteUseCase,
+    private val updateSaveStateUseCase: UpdateSaveStateUseCase
 ) : ViewModel() {
+
+    lateinit var filmId: String
+    var isSaved: Boolean = false
+    private lateinit var filmDetails: FilmDetailsDomainModel
 
     private val _detailsUiState = MutableStateFlow<FilmDetailState>(FilmDetailState.Loading)
     val detailsUiState: StateFlow<FilmDetailState> = _detailsUiState
 
-    fun fetchFilmDetails(apiKey: String, id: String) {
+    fun fetchFilmDetails(apiKey: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val filmsDetails = loafDetailsFilmUseCase.loadFilmDetails(apiKey = apiKey, id = id)
-                if (!filmsDetails.errorMessage.isNullOrEmpty()) {
+                filmDetails = loafDetailsFilmUseCase.loadFilmDetails(apiKey = apiKey, id = filmId)
+                filmDetails.isSaved = isSaved
+                if (!filmDetails.errorMessage.isNullOrEmpty()) {
                     _detailsUiState.value = FilmDetailState.Error()
                 } else {
-                    _detailsUiState.value = FilmDetailState.Success(filmsDetails)
+                    _detailsUiState.value = FilmDetailState.Success(filmDetails)
                 }
             } catch (ex: Exception) {
                 _detailsUiState.value = FilmDetailState.Error()
@@ -35,15 +43,32 @@ class DetailsViewModel(
         }
     }
 
-    fun saveToFavourite(film: FilmDomainModel) {
+    fun changeSaveState(isSaved: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            saveToFavourite.saveToFavourite(film)
+            if (isSaved) {
+                removeFromFavourite.removeFilmById(filmId)
+            } else {
+                saveToFavourite.saveFilmById(filmId)
+            }
+            updateSaveStateUseCase.updateSaveState(filmId, !isSaved)
+            filmDetails.isSaved = !isSaved
+            _detailsUiState.value = FilmDetailState.Success(filmDetails)
         }
     }
 
-    fun deleteFromFavourite(film: FilmDomainModel) {
+    fun saveToFavourite() {
         viewModelScope.launch(Dispatchers.IO) {
-            removeFromFavourite.remove(film)
+            saveToFavourite.saveFilmById(filmId)
+            updateSaveStateUseCase.updateSaveState(filmId, true)
+            filmDetails.isSaved = true
+            _detailsUiState.value = FilmDetailState.Success(filmDetails)
+        }
+    }
+
+    fun deleteFromFavourite() {
+        viewModelScope.launch(Dispatchers.IO) {
+//            removeFromFavourite.remove(filmId)
+//            updateSaveStateUseCase.updateSaveState(filmId.id, false)
         }
     }
 

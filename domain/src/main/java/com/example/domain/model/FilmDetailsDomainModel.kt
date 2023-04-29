@@ -12,7 +12,7 @@ data class FilmDetailsDomainModel(
     val releaseDate: String?,
     val actorList: List<ActorDomainModel>,
     val errorMessage: String?,
-    val isSaved: Boolean = false
+    var isSaved: Boolean = false
 ) : BaseModel {
 
     override fun isIdDiff(other: BaseModel): Boolean {
