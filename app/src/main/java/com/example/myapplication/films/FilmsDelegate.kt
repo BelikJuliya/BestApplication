@@ -12,7 +12,8 @@ import com.example.myapplication.databinding.ItemFilmBinding
 
 class FilmsViewHolder(
     parent: ViewGroup,
-    private val changeSaveState: (film: FilmDomainModel) -> Unit = {},
+    private val save: (film: FilmDomainModel) -> Unit = {},
+    private val delete: (film: FilmDomainModel) -> Unit = {},
     private val navigateToDetails: (id: String, isSaved: Boolean) -> Unit
 ) : BaseViewHolder(parent, R.layout.item_film) {
 
@@ -31,9 +32,13 @@ class FilmsViewHolder(
             } else {
                 ivLike.setImageResource(R.drawable.ic_unsaved)
             }
+
             ivLike.setOnClickListener {
-//                model.isSaved = !model.isSaved
-                changeSaveState(model)
+                if (model.isSaved) {
+                    delete(model)
+                } else {
+                    save(model)
+                }
             }
             root.setOnClickListener { navigateToDetails(model.id, model.isSaved) }
         }
@@ -62,11 +67,13 @@ class FilmsViewHolder(
 
     private fun bindSavedState(model: BaseModel) {
         model as FilmDomainModel
-        with(binding) {
+        with(binding.ivLike) {
             if (model.isSaved) {
-                ivLike.setImageResource(R.drawable.ic_saved)
+                setImageResource(R.drawable.ic_saved)
+                setOnClickListener { delete(model) }
             } else {
-                ivLike.setImageResource(R.drawable.ic_unsaved)
+                setImageResource(R.drawable.ic_unsaved)
+                setOnClickListener { save(model) }
             }
         }
     }
@@ -88,14 +95,16 @@ class FilmsViewHolder(
 }
 
 class FilmsDelegate(
-    private val changeSaveState: (film: FilmDomainModel) -> Unit = {},
+    private val save: (film: FilmDomainModel) -> Unit = {},
+    private val delete: (film: FilmDomainModel) -> Unit = {},
     private val navigateToDetails: (id: String, isSaved: Boolean) -> Unit
 ) : AdapterDelegate {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseViewHolder =
         FilmsViewHolder(
             parent,
-            changeSaveState,
+            save,
+            delete,
             navigateToDetails
         )
 

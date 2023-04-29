@@ -43,11 +43,11 @@ class FilmsListViewModel(
         }
     }
 
-    fun removeFromSaved(film: FilmDomainModel) {
+    fun delete(film: FilmDomainModel) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 deleteFilmUseCase.remove(film)
-               // mapSavedState(film, false)
+                mapSavedState(film, false)
                 _filmsListUiState.value = FilmsListUiState.Success(data = filmsList)
             } catch (ex: Exception) {
                 Log.e(TAG, "removeFromSaved: remove from saved failed", ex)
@@ -55,15 +55,11 @@ class FilmsListViewModel(
         }
     }
 
-    fun changeSaveSate(film: FilmDomainModel) {
+    fun save(film: FilmDomainModel) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                if (film.isSaved){
-                    deleteFilmUseCase.remove(film)
-                } else {
-                    saveToFavouriteUseCase.saveToFavourite(film)
-                }
-                mapSavedState(film)
+                saveToFavouriteUseCase.saveToFavourite(film)
+                mapSavedState(film, true)
                 _filmsListUiState.value = FilmsListUiState.Success(data = filmsList)
             } catch (ex: Exception) {
                 Log.e(TAG, "saving to favourite: remove from saved failed", ex)
@@ -71,10 +67,10 @@ class FilmsListViewModel(
         }
     }
 
-    private fun mapSavedState(film: FilmDomainModel) {
+    private fun mapSavedState(film: FilmDomainModel, isSaved: Boolean) {
         val newList = filmsList.map {
             if (it.id == film.id) {
-                it.copy(isSaved = !film.isSaved)
+                it.copy(isSaved = isSaved)
             } else it
         }.toMutableList()
         filmsList = newList
@@ -97,7 +93,6 @@ class FilmsListViewModel(
 //        val def = viewModelScope.async { downLoadImageFlow(urlString) }
 //        def.onAwait
 //    }
-
 
 
 //    fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {

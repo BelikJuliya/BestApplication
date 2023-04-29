@@ -42,8 +42,11 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
 
     private val filmsAdapter by lazy {
         FilmsAdapter(
-            changeSaveState = {
-                viewModel.changeSaveSate(it)
+            save = {
+                viewModel.save(it)
+            },
+            delete = {
+                viewModel.delete(it)
             },
             navigateToDetails = { id, isSaved ->
                 navigateToFilmsDetails(id, isSaved)
@@ -78,7 +81,11 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
                                 spanCount = 1
                                 filmsAdapter.submitItem(Loader())
                             }
-                            is FilmsListUiState.Error -> filmsAdapter.submitItem(com.example.domain.model.Error(it.message))
+                            is FilmsListUiState.Error -> filmsAdapter.submitItem(
+                                com.example.domain.model.Error(
+                                    it.message
+                                )
+                            )
                             is FilmsListUiState.Success -> {
                                 spanCount = 2
                                 filmsAdapter.submitList(it.data.toMutableList())

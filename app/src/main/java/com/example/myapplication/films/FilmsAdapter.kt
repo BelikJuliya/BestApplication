@@ -7,11 +7,12 @@ import com.example.myapplication.base.ErrorDelegate
 import com.example.myapplication.base.LoaderDelegate
 
 class FilmsAdapter(
-    changeSaveState: (film: FilmDomainModel) -> Unit,
+    save: (film: FilmDomainModel) -> Unit,
+    delete: (film: FilmDomainModel) -> Unit,
     navigateToDetails: (id: String, isSaved: Boolean) -> Unit
 ) : BaseRecyclerAdapter(
     listOf(
-        FilmsDelegate(changeSaveState = changeSaveState, navigateToDetails = navigateToDetails),
+        FilmsDelegate(save = save, delete = delete, navigateToDetails = navigateToDetails),
         ErrorDelegate(),
         EmptyListDelegate(),
         LoaderDelegate()
