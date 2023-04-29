@@ -55,11 +55,11 @@ class FilmsListViewModel(
         }
     }
 
-    fun saveFilm(film: FilmDomainModel) {
+    fun changeSaveSate(film: FilmDomainModel) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 if (film.isSaved){
-                    removeFromSaved(film)
+                    deleteFilmUseCase.remove(film)
                 } else {
                     saveToFavouriteUseCase.saveToFavourite(film)
                 }

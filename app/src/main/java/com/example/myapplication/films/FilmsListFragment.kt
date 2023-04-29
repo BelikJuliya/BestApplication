@@ -42,11 +42,8 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
 
     private val filmsAdapter by lazy {
         FilmsAdapter(
-            saveFilm = {
-                viewModel.saveFilm(it)
-            },
-            removeFromSaved = {
-                viewModel.removeFromSaved(it)
+            changeSaveState = {
+                viewModel.changeSaveSate(it)
             },
             navigateToDetails = { id, isSaved ->
                 navigateToFilmsDetails(id, isSaved)

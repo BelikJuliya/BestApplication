@@ -12,8 +12,7 @@ import com.example.myapplication.databinding.ItemFilmBinding
 
 class FilmsViewHolder(
     parent: ViewGroup,
-    private val saveFilm: (film: FilmDomainModel) -> Unit = {},
-    private val removeFromSaved: (film: FilmDomainModel) -> Unit = {},
+    private val changeSaveState: (film: FilmDomainModel) -> Unit = {},
     private val navigateToDetails: (id: String, isSaved: Boolean) -> Unit
 ) : BaseViewHolder(parent, R.layout.item_film) {
 
@@ -33,11 +32,8 @@ class FilmsViewHolder(
                 ivLike.setImageResource(R.drawable.ic_unsaved)
             }
             ivLike.setOnClickListener {
-                if (model.isSaved) {
-                    removeFromSaved(model)
-                } else {
-                    saveFilm(model)
-                }
+//                model.isSaved = !model.isSaved
+                changeSaveState(model)
             }
             root.setOnClickListener { navigateToDetails(model.id, model.isSaved) }
         }
@@ -92,16 +88,14 @@ class FilmsViewHolder(
 }
 
 class FilmsDelegate(
-    private val saveCurrency: (film: FilmDomainModel) -> Unit = {},
-    private val removeFromSaved: (film: FilmDomainModel) -> Unit = {},
+    private val changeSaveState: (film: FilmDomainModel) -> Unit = {},
     private val navigateToDetails: (id: String, isSaved: Boolean) -> Unit
 ) : AdapterDelegate {
 
     override fun onCreateViewHolder(parent: ViewGroup): BaseViewHolder =
         FilmsViewHolder(
             parent,
-            saveCurrency,
-            removeFromSaved,
+            changeSaveState,
             navigateToDetails
         )
 
