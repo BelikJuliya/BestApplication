@@ -9,7 +9,7 @@ import com.example.myapplication.base.LoaderDelegate
 class FilmsAdapter(
     save: (film: FilmDomainModel) -> Unit,
     delete: (film: FilmDomainModel) -> Unit,
-    navigateToDetails: (id: String, isSaved: Boolean) -> Unit
+    navigateToDetails: (id: String) -> Unit
 ) : BaseRecyclerAdapter(
     listOf(
         FilmsDelegate(save = save, delete = delete, navigateToDetails = navigateToDetails),

@@ -48,8 +48,8 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
             delete = {
                 viewModel.delete(it)
             },
-            navigateToDetails = { id, isSaved ->
-                navigateToFilmsDetails(id, isSaved)
+            navigateToDetails = { id ->
+                navigateToFilmsDetails(id)
             }
         )
     }
@@ -98,7 +98,7 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
         }
     }
 
-    private fun navigateToFilmsDetails(id: String, isSaved: Boolean) {
+    private fun navigateToFilmsDetails(id: String) {
         val fragment: Fragment = FilmsDetailsFragment()
         val arguments = Bundle()
         arguments.putString(FilmsDetailsFragment.FILM_ID, id)
