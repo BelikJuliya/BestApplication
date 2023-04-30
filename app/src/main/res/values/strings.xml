@@ -10,4 +10,9 @@
     <string name="popular">Популярное</string>
     <string name="clear_all">Очистить</string>
     <string name="search">Поиск</string>
+
+    <string name="sort_popular">По популярности</string>
+    <string name="sort_alphabet">По алфавиту</string>
+    <string name="sort_rating">По рейтингу</string>
+    <string name="sort_count">По количеству оценок</string>
 </resources>

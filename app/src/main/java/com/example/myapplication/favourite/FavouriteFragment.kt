@@ -98,7 +98,7 @@ class FavouriteFragment : Fragment() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        (activity as MainActivity).menuInflater.inflate(R.menu.app_bar_menu, menu)
+        (activity as MainActivity).menuInflater.inflate(R.menu.favourite_app_bar_menu, menu)
         super.onPrepareOptionsMenu(menu)
     }
 

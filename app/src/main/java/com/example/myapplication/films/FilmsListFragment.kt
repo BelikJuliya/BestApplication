@@ -2,6 +2,9 @@ package com.example.myapplication.films
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -20,6 +23,7 @@ import com.example.domain.usecase.SaveToFavouriteUseCase
 import com.example.domain.usecase.UpdateSaveStateUseCase
 import com.example.myapplication.R
 import com.example.myapplication.base.App
+import com.example.myapplication.base.MainActivity
 import com.example.myapplication.databinding.FragmentFilmsListBinding
 import com.example.myapplication.details.FilmsDetailsFragment
 import kotlinx.coroutines.launch
@@ -61,6 +65,7 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        setHasOptionsMenu(true)
         binding = FragmentFilmsListBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -98,6 +103,33 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
                     }
                 }
             }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        (activity as MainActivity).menuInflater.inflate(R.menu.sorting_app_bar_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.sort_popular -> {
+            // TODO implement
+            true
+        }
+        R.id.sort_alphabet -> {
+            // TODO implement
+            true
+        }
+        R.id.sort_count -> {
+            // TODO implement
+            true
+        }
+        R.id.sort_rating -> {
+            // TODO implement
+            true
+        }
+        else -> {
+            super.onOptionsItemSelected(item)
         }
     }
 
