@@ -31,6 +31,7 @@ class DbDataSourceImpl(
 
     override suspend fun clearAll() {
         dao.clearAll()
+        dao.changeSaveState()
     }
 
     override suspend fun updateSaveState(id: String, isSaved: Boolean) {

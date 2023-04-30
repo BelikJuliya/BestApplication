@@ -30,6 +30,9 @@ FilmsDao {
     @Query("DELETE FROM favourite")
     suspend fun clearAll()
 
+    @Query("UPDATE films SET isSaved = 0 WHERE isSaved= 1")
+    suspend fun changeSaveState()
+
     @Query("SELECT * from films WHERE id= :id")
     fun getFilmById(id: String): FilmEntity
 
