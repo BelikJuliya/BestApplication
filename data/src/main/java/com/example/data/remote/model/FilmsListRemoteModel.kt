@@ -14,7 +14,9 @@ data class FilmsListRemoteModel(
                 id = it.id,
                 title = it.title,
                 imageUrl = it.image,
-                rating = it.iMDbRating
+                rating = it.iMDbRating,
+                rank = it.rank,
+                iMDbRatingCount = it.iMDbRatingCount
             )
         }
     }

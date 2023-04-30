@@ -113,19 +113,19 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.sort_popular -> {
-            // TODO implement
+            viewModel.sort(Order.Popularity)
             true
         }
         R.id.sort_alphabet -> {
-            // TODO implement
+           viewModel.sort(Order.Alphabet)
             true
         }
         R.id.sort_count -> {
-            // TODO implement
+            viewModel.sort(Order.Count)
             true
         }
         R.id.sort_rating -> {
-            // TODO implement
+            viewModel.sort(Order.Rating)
             true
         }
         else -> {

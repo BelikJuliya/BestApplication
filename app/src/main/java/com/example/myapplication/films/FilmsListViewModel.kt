@@ -79,6 +79,16 @@ class FilmsListViewModel(
     fun findIsSavedFilmById(id: String): Boolean {
         return filmsList.find { it.id == id }?.isSaved ?: false
     }
+
+    fun sort(order: Order){
+        when(order){
+            is Order.Alphabet -> filmsList.sortBy { it.title }
+            is Order.Rating -> filmsList.sortBy { it.rating }
+            is Order.Popularity -> filmsList.sortBy { it.rank }
+            is Order.Count -> filmsList.sortBy { it.iMDbRatingCount }
+        }
+        _filmsListUiState.value = FilmsListUiState.Success(data = filmsList)
+    }
 }
 
 //    private suspend fun mapImages(film: FilmDomainModel) {

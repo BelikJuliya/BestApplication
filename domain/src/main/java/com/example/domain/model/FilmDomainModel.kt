@@ -11,7 +11,9 @@ data class FilmDomainModel(
     val imageUrl: String?,
     val rating: String?,
     var isSaved: Boolean = false,
-    val bitmapPath: Path? = null
+    val bitmapPath: Path? = null,
+    val rank: String?,
+    val iMDbRatingCount: String?
 ) : BaseModel {
 
     override fun isIdDiff(other: BaseModel): Boolean {

@@ -11,7 +11,9 @@ class FavouriteFilmEntity(
     val title: String,
     val image: String,
     val rating: String,
-    val isSaved: Boolean
+    val isSaved: Boolean,
+    val rank: String?,
+    val iMDbRatingCount: String?
 ) : IEntity<FilmDomainModel, FilmEntity> {
 
     override fun toDomainObject(): FilmDomainModel {
@@ -20,7 +22,9 @@ class FavouriteFilmEntity(
             title = this.title,
             imageUrl = this.image,
             rating = this.rating,
-            isSaved = this.isSaved
+            isSaved = this.isSaved,
+            rank = this.rank,
+            iMDbRatingCount = this.iMDbRatingCount
         )
     }
 
@@ -32,7 +36,9 @@ class FavouriteFilmEntity(
                 title = model.title ?: "",
                 image = model.imageUrl ?: "",
                 rating = model.rating ?: "",
-                isSaved = model.isSaved
+                isSaved = model.isSaved,
+                rank = model.rank,
+                iMDbRatingCount = model.iMDbRatingCount
             )
         }
     }
