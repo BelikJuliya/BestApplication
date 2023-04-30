@@ -20,8 +20,6 @@ class FavouriteViewModel(
     private val clearAllSavedFilmsUseCase: ClearAllSavedUseCase
 ) : ViewModel() {
 
-    private val TAG = this.javaClass.simpleName
-
     private var favouriteList = mutableListOf<FilmDomainModel>()
     private val _favouriteUiState = MutableStateFlow<FilmsListUiState>(FilmsListUiState.Idle)
     val favouriteUiState: StateFlow<FilmsListUiState> = _favouriteUiState
@@ -43,8 +41,20 @@ class FavouriteViewModel(
     }
 
     fun clearAll() {
-        viewModelScope.launch { clearAllSavedFilmsUseCase.clearAll() }
+        viewModelScope.launch(Dispatchers.IO) { clearAllSavedFilmsUseCase.clearAll() }
         favouriteList.clear()
         _favouriteUiState.value = FilmsListUiState.Empty
+    }
+
+    fun removeFromSaved(film: FilmDomainModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            removeFilmsFromDbUseCase.remove(film)
+            favouriteList.remove(film)
+            if (favouriteList.isEmpty()) {
+                _favouriteUiState.value = FilmsListUiState.Empty
+            } else {
+                _favouriteUiState.value = FilmsListUiState.Success(data = favouriteList)
+            }
+        }
     }
 }

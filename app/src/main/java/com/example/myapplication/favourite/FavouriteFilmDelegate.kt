@@ -25,6 +25,7 @@ class FavouriteViewHolder(
             tvTitle.text = model.title
             tvRating.text = model.rating
             Glide.with(binding.root).load(model.imageUrl).into(ivPreview)
+            ivLike.setImageResource(R.drawable.ic_saved)
             ivLike.setOnClickListener {
                 removeFromSaved(model)
             }

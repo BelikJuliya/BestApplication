@@ -49,7 +49,7 @@ class FavouriteFragment : Fragment() {
     private val favouriteAdapter by lazy {
         FavoriteListAdapter(
             removeFromSaved = {
-                //viewModel.removeFromSaved(it)
+                viewModel.removeFromSaved(it)
             },
             navigateToDetails = { id, isSaved ->
                 navigateToFilmsDetails(id, isSaved)
