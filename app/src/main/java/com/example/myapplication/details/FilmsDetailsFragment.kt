@@ -98,11 +98,6 @@ class FilmsDetailsFragment : Fragment() {
                                     }
                                     ivAddToFavourite.setOnClickListener {
                                         viewModel.changeSaveState(isSaved)
-//                                        if (isSaved) {
-//                                            viewModel.deleteFromFavourite()
-//                                        } else {
-//                                            viewModel.saveToFavourite()
-//                                        }
                                     }
                                     btnYoutube.setOnClickListener { _ ->
                                         viewModel.goToYouTube(it.data.id)

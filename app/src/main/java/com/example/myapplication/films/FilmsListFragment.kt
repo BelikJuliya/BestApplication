@@ -111,12 +111,4 @@ class FilmsListFragment : Fragment(R.layout.fragment_films_list) {
             ?.replace(R.id.fragment_container_view, fragment)
             ?.addToBackStack(fragment.javaClass.simpleName)?.commit()
     }
-
-    override fun onResume() {
-        super.onResume()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
 }

@@ -2,6 +2,8 @@ package com.example.myapplication.favourite
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -19,8 +21,8 @@ import com.example.domain.usecase.GetFavouriteFilmsListUseCase
 import com.example.domain.usecase.RemoveFilmFromFavouriteUseCase
 import com.example.myapplication.R
 import com.example.myapplication.base.App
+import com.example.myapplication.base.MainActivity
 import com.example.myapplication.databinding.FragmentFavouriteFilmsBinding
-import com.example.myapplication.databinding.FragmentFilmsListBinding
 import com.example.myapplication.details.FilmsDetailsFragment
 import com.example.myapplication.films.FilmsListUiState
 import kotlinx.coroutines.launch
@@ -59,6 +61,7 @@ class FavouriteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentFavouriteFilmsBinding.inflate(inflater, container, false)
+        setHasOptionsMenu(true)
         return binding.root
     }
 
@@ -66,7 +69,6 @@ class FavouriteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.fetchFilms()
         with(binding) {
-            tvClearAll.setOnClickListener { viewModel.clearAll() }
             rvFavourite.adapter = favouriteAdapter
             var spanCount = 1
             viewLifecycleOwner.lifecycleScope.launch {
@@ -92,6 +94,26 @@ class FavouriteFragment : Fragment() {
                     }
                 }
             }
+        }
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        (activity as MainActivity).menuInflater.inflate(R.menu.app_bar_menu, menu)
+        super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.clear -> {
+            viewModel.clearAll()// User chose the "Settings" item, show the app settings UI...
+            true
+        }
+        R.id.search -> {
+            // TODO implement
+            // viewModel.search()
+            true
+        }
+        else -> {
+            super.onOptionsItemSelected(item)
         }
     }
 

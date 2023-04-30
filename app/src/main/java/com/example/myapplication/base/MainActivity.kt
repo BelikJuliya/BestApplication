@@ -1,7 +1,7 @@
 package com.example.myapplication.base
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMainBinding
@@ -16,24 +16,26 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        with(binding) {
 
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container_view, SplashFragment())
-                .commit()
-        }
+            if (savedInstanceState == null) {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container_view, SplashFragment())
+                    .commit()
+            }
 
-        binding.bottomNavigation.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.popular -> {
-                    navigateToFilmsList()
-                    true
+            bottomNavigation.setOnNavigationItemSelectedListener {
+                when (it.itemId) {
+                    R.id.popular -> {
+                        navigateToFilmsList()
+                        true
+                    }
+                    R.id.saved -> {
+                        navigateToFavouriteList()
+                        true
+                    }
+                    else -> false
                 }
-                R.id.saved -> {
-                    navigateToFavouriteList()
-                    true
-                }
-                else -> false
             }
         }
     }
