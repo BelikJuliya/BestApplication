@@ -3,9 +3,11 @@ package com.example.myapplication.favourite
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -97,17 +99,41 @@ class FavouriteFragment : Fragment() {
         }
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         (activity as MainActivity).menuInflater.inflate(R.menu.favourite_app_bar_menu, menu)
-        super.onPrepareOptionsMenu(menu)
+        val menuItem = menu.findItem(R.id.search)
+        val searchView = menuItem.actionView as SearchView?
+        searchView?.queryHint = resources.getString(R.string.search_hint)
+        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            android.widget.SearchView.OnQueryTextListener {
+
+            override fun onQueryTextChange(qString: String): Boolean {
+                favouriteAdapter.customFilter.filter(qString)
+                return true
+            }
+
+            override fun onQueryTextSubmit(qString: String): Boolean {
+                //menuItem.collapseActionView()
+                if (!searchView.isIconified) {
+                    searchView.isIconified = true
+                }
+                menuItem.collapseActionView()
+                return false
+                //return true
+            }
+        })
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.clear -> {
-            viewModel.clearAll()// User chose the "Settings" item, show the app settings UI...
+            viewModel.clearAll()
             true
         }
         R.id.search -> {
+            val searchView = item.actionView as SearchView?
+//            searchView.expandActionView()
+            searchView?.isIconified = false
             // TODO implement
             // viewModel.search()
             true

@@ -15,4 +15,6 @@
     <string name="sort_alphabet">По алфавиту</string>
     <string name="sort_rating">По рейтингу</string>
     <string name="sort_count">По количеству оценок</string>
+
+    <string name="search_hint">Введите название фильма</string>
 </resources>

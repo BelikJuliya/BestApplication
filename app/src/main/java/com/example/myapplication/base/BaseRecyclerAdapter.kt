@@ -3,15 +3,17 @@ package com.example.myapplication.base
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.BaseModel
+import com.example.domain.model.FilmDomainModel
+import java.util.Locale
 
 open class BaseRecyclerAdapter(
     delegates: List<AdapterDelegate>,
-    clickToAction: () -> Unit = {}
-
 ) : ListAdapter<BaseModel, BaseViewHolder>(BaseDiffUtil()) {
 
     private val delegateManager = AdapterDelegateManager()
@@ -33,7 +35,6 @@ open class BaseRecyclerAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         delegateManager.getDelegate(viewType).onCreateViewHolder(parent)
-
 
     @Suppress("UNCHECKED_CAST")
     override fun onBindViewHolder(
@@ -82,12 +83,36 @@ open class BaseRecyclerAdapter(
         }
     }
 
-    fun isEmpty() = currentList.isEmpty()
-
     override fun onCurrentListChanged(
         previousList: MutableList<BaseModel>,
         currentList: MutableList<BaseModel>
     ) {
         super.onCurrentListChanged(previousList, currentList)
+    }
+
+    val customFilter = object : Filter() {
+        override fun performFiltering(constraint: CharSequence?): FilterResults {
+            val filteredList = mutableListOf<BaseModel>()
+            if (constraint == null || constraint.isEmpty()) {
+                filteredList.addAll(currentList)
+            } else {
+                for (item in currentList) {
+                    if ((item as FilmDomainModel).title?.lowercase(Locale.ROOT)?.startsWith(
+                            constraint.toString()
+                                .lowercase(Locale.ROOT)
+                        ) == true
+                    ) {
+                        filteredList.add(item)
+                    }
+                }
+            }
+            val results = FilterResults()
+            results.values = filteredList
+            return results
+        }
+
+        override fun publishResults(constraint: CharSequence?, filterResults: FilterResults?) {
+            submitList(filterResults?.values as MutableList<BaseModel>)
+        }
     }
 }
